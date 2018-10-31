@@ -207,7 +207,7 @@ Remember, the shell is a user program and not a kernel component.
 
 ## 1.3.3 Building block primitives
 
-UNIX philosophy is to provide users  primitives to write small modular programs that can be seen as blocks to build something more complex. One primitive visible to `shell` users is the capability to `redirect I/O`. Processes typically have access to three files:
+UNIX philosophy is to provide users primitives to write small modular programs that can be seen as blocks to build something more complex. One primitive visible to `shell` users is the capability to `redirect I/O`. Processes typically have access to three files:
 
 - read from the standard input
 - write to the standard output
@@ -244,3 +244,41 @@ The shell recognizes the symbols ">", "<" and "2>" and sets up the standard inpu
 
 
 The second building block primitive is the `pipe`, a mechanism that allows stream of data to be passed between the `reader` and `writer` process. A process can redirect it's standard output to a pipe to be read by another process that have redirected it's standard input to come from a pipe.
+The data that the first processes write into the pipe is the input for the second processes. The second processes could also redirect their output and so on (depending on programming).
+
+The processes need to know what type of file their standard output is, they work even if the standard output is a regular `file`, `pipe` or `device`.
+
+For example, the program `grep` searches a set of files for an specific pattern:
+
+```
+grep main file1.c file2.c file3.c
+```
+
+searches for the word "main" in files "file1.c", "file2.c" and "file3.c". the output could be:
+
+```
+file1.c: main(argc, argv)
+file2.c: /* here is the main loop in the program */
+file3.c: main()
+```
+
+## 1.4 Operating system services
+
+The figure depicts the kernel and user layer. The kernel performs operations on behalf of user processes to support the user interface described above:
+
+- Controlling execution of processes by allowing their creation, termination or suspension, and communication
+
+- Scheduling processes fairly for execution on the CPU. Processes share the CPU in a `time-shared` fashion. The CPU executes a process, the kernel suspends it when it's `time quantum` elapses, and the kernel schedules another process to execute. The kernel later reschedules the suspended process.
+
+
+- Allocating main memory for an executing process. The kernel allows processes to share portion of their memory address space under some conditions, but protects the private space of a process from outside tampering (other process cannot read address space from another process).
+
+- If the kernel is low in memory, it frees memory by writing a process to a secondary memory called `swap`. If the kernel write the entire processes to a `swap` device, the implementation of the UNIX system is called `swapping system`; if it writes pages of memory to a real `swap` device it is called `paging system`.
+
+- Allocating secondary memory for efficient storage and retrieval of user data (this is the filesystem). The kernel allocates secondary storage for user files, reclaims unused storage, structure the file system and protects the file from illegal access.
+
+- Allowing processes controlled access to devices such as terminals, tape drives, disk drives, network cards, etc.
+
+## 1.5 Assumptions about hardware
+
+
