@@ -2,23 +2,7 @@
 
 # General Overview of the system
 
-Unix became popular since it's inception in 1969, running on different types of machines such as microprocessors, mainframes. The system is divided in two parts. First part is related to programs and services (mail, shell, text editors, etc) and the second is the operating system that support those programs and services. This book is focus on the description of the UNIX System V, produced by AT&T but consider features from other systems too.
-
-## History
-
-In 1965 Bell Telephone laboratories joined efforts with General Electric and project MAC of the Massachusets Institute of technology to develop a new system. It was called "Multics". The goal, was to provide compute power and storage to a wide amount of users, so that they can share their data easily, if desired.
-
-A primitive version of Multics was running on a GE 645 computer (1969), it did not provide the enough computing power, nor was clear it's development goals. Bell laboratories ended his participation on this project.
-
-With the end of the Multics project, members from the Computing Science research center at Bell laboratories were left without a programming environment. In an attempt to provide a programming environment, Ken thompson and Dennis Ritchie (plus others), sketched a paper design for a file system that later evolved in the UNIX file system.
-
-.....
-//
-// Not sure if continue on this
-//
-.....
-
-## System Structure
+## 1.2 System Structure
 
 The hardware at the center of the diagram provides basic services to the operating system. The operating system interacts directly with the hardware, encapsulating the complexity between program/services and the hardware. It could be divided in layers such as image depicted below. The operating system lies on the `system kernel` or just `kernel` layer which is isolated from the `user` layer which is where user application run.
 
@@ -57,13 +41,13 @@ Permissions to access a file or directory are managed by the operating system. P
 
 For example consider the following example, which makes a copy of a given file. A user in the terminal can type:
 
-```
+```bash
 copy oldfile newfile
 ```
 
 where the oldfile is the existent file, and newfile the copy. Check the C code below:
 
-```
+```c++
 #include <fcntl.h>
 char buffer[2048];
 int version = 1; /* Chapter 2 explains this */
@@ -123,7 +107,7 @@ copy /dev/tty0 read-terminal.txt
 
 which read the characters typed on the terminal  (/dev/tty0 is the user's terminal) and copy the content on `read-terminal.txt` file. Similarly,
 
-```
+```shell
 copy /dev/tty0 /dev/tty0
 ```
 
@@ -139,7 +123,7 @@ system calls allow process to create, terminate, synchronize stages of execution
 
 For instance, a process executing the following program, executes a `fork` system call to create a new process. The new process is called the `child` process and gets a return value of `0` from fork and invokes `execl` to execute  the program `copy` (the command from the previous section)
 
-```
+```c++
 main(argc, argv)
 int argc;
 char *argv[];
@@ -159,7 +143,7 @@ While the process that invoked `fork` (parent process) receives a non-0 from the
 
 For example, if the executable name is `run` and the user invokes the program as:
 
-```
+```shell
 run oldfile newfile
 ```
 
@@ -190,7 +174,7 @@ The `shell` looks for commands in a given sequence of directories (`/bin:/usr/bi
 
 For example:
 
-```
+```shell
 who
 ```
 
@@ -198,7 +182,7 @@ Makes the system execute the program `who`, which is stored on `/bin/who` and pr
 
 by typing:
 
-```
+```shell
 who &
 ```
 
@@ -215,26 +199,26 @@ UNIX philosophy is to provide users primitives to write small modular programs t
 
 A process executing in a terminal typically uses all of them, but they may be redirected independently. For example:
 
-```
+```shell
 ls
 ```
 
 list all the files from the current directory on the standard output, but the command line:
 
-```
+```shell
 ls > output.txt
 ```
 
 redirects the standard output to the file called `output.txt` in the current directory, using the `creat` system call. Similarly, the command line:
 
-```
+```shell
 mail manuel < letter
 ```
 
 opens the file "letter" for it's standard input and mails the content to the user named "manuel".
 process can redirect input and output at the same time, for example:
 
-```
+```shell
 nroff -mm < doc1 > doc1.out 2 > errors
 ```
 
@@ -250,13 +234,13 @@ The processes need to know what type of file their standard output is, they work
 
 For example, the program `grep` searches a set of files for an specific pattern:
 
-```
+```shell
 grep main file1.c file2.c file3.c
 ```
 
 searches for the word "main" in files "file1.c", "file2.c" and "file3.c". the output could be:
 
-```
+```bash
 file1.c: main(argc, argv)
 file2.c: /* here is the main loop in the program */
 file3.c: main()
@@ -330,5 +314,10 @@ when the program is ready to run, the kernel allocates space in main memory for 
 
 For example some machines have special hardware to support demand `paging` (more in chapter #6 and #9)
 
+
+## Additional References
+
+- NS3200 Micro-Controller https://en.wikipedia.org/wiki/NS320xx
+- System V release 4 version 2 kernel https://archive.org/details/ATTUNIXSystemVRelease4Version2
 
 
