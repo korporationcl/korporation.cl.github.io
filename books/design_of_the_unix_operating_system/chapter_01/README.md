@@ -264,12 +264,14 @@ file3.c: main()
 
 ## 1.4 Operating system services
 
-The figure depicts the kernel and user layer. The kernel performs operations on behalf of user processes to support the user interface described above:
+The figure depicts the kernel and user layer (add image here):
+
+
+The kernel performs operations on behalf of user processes to support the user interface described above:
 
 - Controlling execution of processes by allowing their creation, termination or suspension, and communication
 
 - Scheduling processes fairly for execution on the CPU. Processes share the CPU in a `time-shared` fashion. The CPU executes a process, the kernel suspends it when it's `time quantum` elapses, and the kernel schedules another process to execute. The kernel later reschedules the suspended process.
-
 
 - Allocating main memory for an executing process. The kernel allows processes to share portion of their memory address space under some conditions, but protects the private space of a process from outside tampering (other process cannot read address space from another process).
 
@@ -280,5 +282,53 @@ The figure depicts the kernel and user layer. The kernel performs operations on 
 - Allowing processes controlled access to devices such as terminals, tape drives, disk drives, network cards, etc.
 
 ## 1.5 Assumptions about hardware
+
+The execution of a user processes on UNIX is divided in two levels, user and kernel mode (system). When a process executes a `system call` the execution mode changes from `user mode` to `kernel mode`. The operating system executes the call and if it fails returns an error back to the user. Even if the user doesn't make any explicit requests for operating system services, the OS does `bookkeeping operations` related to the user process, handling interrupts, scheduling processes, managing memory, and so forth.
+
+The main differences are:
+
+- Processes in `user mode` can access their own instructions and data, but not `kernel` instructions and data. Processes in `kernel mode`, however, can access user and kernel user addresses.
+For example the virtual address space of a process could be divided between addresses that are accessible only in kernel mode and addresses that are accessible in either mode.
+
+- Some machine instructions are privileged and result in an error when executed in `user mode`. For example, a machine may contain an instruction that manipulates the processor status register; processes executing in user mode should not have this capability.
+
+ADD FIGURE USER AND KERNEL PROCESS HERE
+
+In summary, the hardware views the world in terms of user and kernel mode and doesn't know about users executing processes in those modes. the OS keeps an internal record about the processes running on the system. The previous figure shows the distinction, the kernel distinguishes between processes A,B,C and D on the horizontal axis, and the hardware distinguishes the mode of execution in the vertical axis.
+
+Although the system executes in on of the two modes, the kernel runs on behalf of a user process. The kernel is not a separate set of processes that run in parallel to user processes, it is part of each user process. The text will referer to this as "the kernel allocating resources" or "the kernel" doing some operations, but what it meant is that a process running in kernel mode allocates the resources or does the various operations.
+
+For example, the user `shell` reads from the terminal input via a `system call`, the kernel executing on behalf of the shell process, controls the operation of the terminal and returns the typed characters to the shell. The shell then executes in user mode, interprets the character stream typed by the user, does the specificied set of actions which may require invocations of other system calls.
+
+## 1.5.1 Interrupts and Exceptions
+
+UNIX systems allow devices such as I/O peripherals or the system `clock` to interrupt the CPU asynchronously. On receipt of the interrupt, the kernel saves it current `context` (a frozen image of what the process was doing), determines the cause of the interrupt, and then services the interrupt. After the kernel services the interrupt, it restores it's interrupted context and proceeds as if nothing happened.
+
+The hardware prioritizes devices according to the priority. When the kernel receives an interrupt, it blocks out lower priority interrupts but services higher priority interrupts.
+
+An `exception` condition referes to unexpected events caused by a process, such as addressing illegal memory, executing privileged instructions, dividing by `zero`, and so forth. Exceptions happen in the middle of the execution of an instruction, and the system attempts to restart the instruction after handling the exception; interrupts are considered to happen between the execution of two instructions, and the system continues with the next instruction after servicing the interrupt. UNIX systems use one mechanism to handle interrupts and exception conditions.
+
+
+## 1.5.2 Processor execution levels
+
+The kernel must sometimes prevent the ocurrence of interrumpts during critical activity, which could result in corrupted data if interrupts were allowed. For instance, the kernel may not want to receive a disk interrupt while manipulating `linked lists`, because handling the interrupt could corrupt the `pointers` (see next chapter).
+
+Computers typically have a set of privileged instructions that set the processor execution level in the processor status word. Setting the processor execution level to certain values masks off interrupts from that level and lower levels, allowing only `high-levels` interrupts. Figure 1.6 shows a sample set of execution levels.
+If the kernel masks out disk interrupts, all interrupts except for `clock` interrupts and machine error
+interrupts are prevented. If it masks out software interrupts, `all` other interrupts may occur.
+
+
+
+## 1.5.3 Memory Management
+
+The kernel does live permanently on memory as does the currently executing process (part of it). When compiling a program, the compiler generates a set of addresses in the program that represent addresses of
+`variables` and `data structures` or the addresses of `instructions` as functions.
+
+the compiler generates the addresses for a `virtual machine` as if no other program will execute simultaneously on the physical machine.
+
+when the program is ready to run, the kernel allocates space in main memory for it, but the `virtual addresses` generated by the compiler don't need to be identical to the `physical addresses`. The kernel coordinates with the machine hardware to setup a `virtual to physical address` translation that `maps` the compiled generated addresses to the physical machine addresses. That mapping depends of the machine capabilities, the parts of the UNIX system that deals with it are machine `dependent?`.
+
+For example some machines have special hardware to support demand `paging` (more in chapter #6 and #9)
+
 
 
