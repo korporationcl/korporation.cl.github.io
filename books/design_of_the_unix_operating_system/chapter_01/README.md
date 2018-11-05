@@ -1,10 +1,25 @@
-
+* [General Overview of the system](#general-overview-of-the-system)
+  * [1.2 System Structure](#12-system-structure)
+  * [1.3 User's perspective](#13-users-perspective)
+     * [1.3.1 File System](#131-file-system)
+  * [1.3.2 Processing Environment](#132-processing-environment)
+  * [1.3.3 Building block primitives](#133-building-block-primitives)
+  * [1.4 Operating system services](#14-operating-system-services)
+  * [1.5 Assumptions about hardware](#15-assumptions-about-hardware)
+  * [1.5.1 Interrupts and Exceptions](#151-interrupts-and-exceptions)
+  * [1.5.2 Processor execution levels](#152-processor-execution-levels)
+  * [1.5.3 Memory Management](#153-memory-management)
+  * [Additional References](#additional-references)
 
 # General Overview of the system
 
 ## 1.2 System Structure
 
 The hardware at the center of the diagram provides basic services to the operating system. The operating system interacts directly with the hardware, encapsulating the complexity between program/services and the hardware. It could be divided in layers such as image depicted below. The operating system lies on the `system kernel` or just `kernel` layer which is isolated from the `user` layer which is where user application run.
+
+![Visual Representation](http://homepages.uc.edu/~thomam/Intro_Unix_Text/Images/OS_donut.png)
+
+[adaptation from Bach's book](http://homepages.uc.edu/~thoman)
 
 Program such as vim, ping, shell are shown in the outer layer, interact with the kernel through  a defined set of `system calls`. The system call instruct the kernel to do operations on behalf of the user process.
 
@@ -13,6 +28,77 @@ Private user programs may run on the system too, describes as `a.out`, as in the
 An standard C program invokes a C preprocessor, two-pass compiler, assembler, and loader (link-editor).
 
 There are about 64 `system calls` in System V, which fewer than 32 are used frequently.
+
+```c++
+struct sysent sysent[] =
+{
+  0, 0, nosys,      /*  0 = indir */
+  1, 0, rexit,      /*  1 = exit */
+  0, 0, fork,     /*  2 = fork */
+  3, 0, read,     /*  3 = read */
+  3, 0, write,      /*  4 = write */
+  3, 0, open,     /*  5 = open */
+  1, 0, close,      /*  6 = close */
+  0, 0, wait,     /*  7 = wait */
+  2, 0, creat,      /*  8 = creat */
+  2, 0, link,     /*  9 = link */
+  1, 0, unlink,     /* 10 = unlink */
+  2, 0, exec,     /* 11 = exec */
+  1, 0, chdir,      /* 12 = chdir */
+  0, 0, gtime,      /* 13 = time */
+  3, 0, mknod,      /* 14 = mknod */
+  2, 0, chmod,      /* 15 = chmod */
+  3, 0, chown,      /* 16 = chown; now 3 args */
+  1, 0, sbreak,     /* 17 = break */
+  2, 0, stat,     /* 18 = stat */
+  3, 0, seek,     /* 19 = seek */
+  0, 0, getpid,     /* 20 = getpid */
+  3, 0, smount,     /* 21 = mount */
+  1, 0, sumount,      /* 22 = umount */
+  1, 0, setuid,     /* 23 = setuid */
+  0, 0, getuid,     /* 24 = getuid */
+  1, 0, stime,      /* 25 = stime */
+  4, 0, ptrace,     /* 26 = ptrace */
+  1, 0, alarm,      /* 27 = alarm */
+  2, 0, fstat,      /* 28 = fstat */
+  0, 0, pause,      /* 29 = pause */
+  2, 0, utime,      /* 30 = utime */
+  2, 0, stty,     /* 31 = stty */
+  2, 0, gtty,     /* 32 = gtty */
+  2, 0, saccess,      /* 33 = access */
+  1, 0, nice,     /* 34 = nice */
+  0, 0, nosys,      /* 35 = sleep; inoperative */
+  0, 0, sync,     /* 36 = sync */
+  2, 0, kill,     /* 37 = kill */
+  0, 0, nosys,      /* 38 = x */
+  1, 0, setpgrp,      /* 39 = setpgrp */
+  0, 0, nosys,      /* 40 = tell - obsolete */
+  1, 0, dup,        /* 41 = dup */
+  0, 0, pipe,     /* 42 = pipe */
+  1, 0, times,      /* 43 = times */
+  4, 0, profil,     /* 44 = prof */
+  1, 0, lock,     /* 45 = proc lock */
+  1, 0, setgid,     /* 46 = setgid */
+  0, 0, getgid,     /* 47 = getgid */
+  2, 0, ssig,     /* 48 = sig */
+  6, 0, msgsys,     /* 49 = IPC Messages */
+  0, 0, nosys,      /* 50 = reserved for local use */
+  1, 0, sysacct,      /* 51 = turn acct off/on */
+  4, 0, shmsys,     /* 52 = IPC Shared Memory */
+  5, 0, semsys,     /* 53 = IPC Semaphores */
+  3, 0, ioctl,      /* 54 = ioctl */
+  0, 0, nosys,      /* 55 = x */
+  0, 0, nosys,      /* 56 = x */
+  3, 0, utssys,     /* 57 = utssys */
+  1, 0, swapfunc,     /* 58 = swap functions */
+  3, 0, exece,      /* 59 = exece */
+  1, 0, umask,      /* 60 = umask */
+  1, 0, chroot,     /* 61 = chroot */
+  3, 0, fcntl,      /* 62 = fcntl */
+  2, 0, ulimit,     /* 63 = ulimit */
+};
+```
+
 
 ## 1.3 User's perspective
 
@@ -29,6 +115,11 @@ The UNIX File system is characterized by:
 
 
 The file system is organised in a tree structure, with a single root leaf, called "root" or "/". Every non-leaf node in the structure can be a file, directory or device. The name of the file is given by a "full-path" name, that describes the location of this file.
+
+![File system Hierarchy](https://upload.wikimedia.org/wikipedia/commons/f/f3/Standard-unix-filesystem-hierarchy.svg)
+
+[By Ppgardne CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+
 
 For example: "/etc/passwd", "/usr/bin/who", "/bin/cat" and so forth.
 
@@ -317,7 +408,7 @@ For example some machines have special hardware to support demand `paging` (more
 
 ## Additional References
 
-- NS3200 Micro-Controller https://en.wikipedia.org/wiki/NS320xx
-- System V release 4 version 2 kernel https://archive.org/details/ATTUNIXSystemVRelease4Version2
+- [NS3200 Micro-Controller](https://en.wikipedia.org/wiki/NS320xx)
+- [System V release 4 version 2 kernel](https://archive.org/details/ATTUNIXSystemVRelease4Version2)
 
 
