@@ -21,9 +21,9 @@ The hardware at the center of the diagram provides basic services to the operati
 
 [adaptation from Bach's book](http://homepages.uc.edu/~thoman)
 
-Program such as vim, ping, shell are shown in the outer layer, interact with the kernel through  a defined set of `system calls`. The system call instruct the kernel to do operations on behalf of the user process.
+Program such as `vi`, `emacs` and `bash` shell are shown in the outer layer, interact with the kernel through  a defined set of `system calls`. The system call instruct the kernel to do operations on behalf of the user process.
 
-Private user programs may run on the system too, describes as `a.out`, as in the standard output for a C compiled (C Compiler or cc).
+Private user programs may run on the system too, described as `a.out`, as in the standard output for a C compiled (C Compiler or cc).
 
 An standard C program invokes a C preprocessor, two-pass compiler, assembler, and loader (link-editor).
 
@@ -121,14 +121,12 @@ The file system is organised in a tree structure, with a single root leaf, calle
 [By Ppgardne CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
 
 
-For example: "/etc/passwd", "/usr/bin/who", "/bin/cat" and so forth.
+Programs in UNIX do not know about the format of a file and it is threat it as an unformatted stream of bytes. Programs may interpret the byte stream in a different way (parsing) but is not related about how the operating system stored the data. Thus the syntax to access a file is the same for all the programs but the format is imposed by the program.
 
-Programs in UNIX do not know about the format of a file and it is thread it as an unformatted stream of bytes. Programs may interpret the byte stream in a different way (parse) but is not related about how the operating system stored the data. Thus the syntax to access a file is the same for all the programs but the format is imposed by the program.
-
-For example the program "troff", expects a new line at the end of the file, but "acctcom" expects a fixed length in records but it's responsability of the application to apply the right format.
+For example the program `troff`, expects a new line at the end of the file, but `acctcom` expects a fixed length in records but it's responsability of the application to apply the right format.
 
 
-Permissions to access a file or directory are managed by the operating system. Permissions can be set to 'read', 'write' or 'execute' for 3 classes of users: 'owner', 'group' and 'others/everyone else'. Devices are protected in the same way as files are
+Permissions to access a file or directory are managed by the operating system. Permissions can be set to `read`, `write` or `execute` for 3 classes of users: `owner`, `group` and `others/everyone else`. Devices are protected in the same way as files are.
 
 For example consider the following example, which makes a copy of a given file. A user in the terminal can type:
 
@@ -150,21 +148,21 @@ main(argc, argv)
   int fdold, fdnew;
 
   if (argc != 3) {
-    printf("need 2 arguments for copy program\n');
+    printf("need 2 arguments for copy program\n");
     exit(1);
   }
 
   fdold=open(argv[1], O_RDONLY); /* open source file read only */
 
   if (fdold == —1) {
-    printf("cannot open file %s\n", argv[1];
+    printf("cannot open file %s\n", argv[1]);
     exit(1);
   }
 
   fdnew creat(argv[2], 0666);
   if (fdnew == -1) {
     /* create target file rw for all */
-    printf("cannot create file %An", argv[1];
+    printf("cannot create file %An", argv[1]);
     exit(1);
   }
 
@@ -208,7 +206,7 @@ reads the characters typed on the terminal and copies them back to user.
 ## 1.3.2 Processing Environment
 
 A program is an executable file, and a process is an instance of the program in execution.
-Many processes can be executed at the same time (multi-programming/multi-tasking), with no logical limit to their number and many instances of the program  (such as copy) can exist simultaneously in the system.
+Many processes can be executed at the same time (`multi-tasking`), with no logical limit to their number and many instances of the program  (such as copy) can exist simultaneously in the system.
 
 system calls allow process to create, terminate, synchronize stages of execution (?), control reactions of events, etc.
 
@@ -221,7 +219,7 @@ char *argv[];
 
 /* assume 2 args: source file and target file */
 if (fork() == 0)
-  execl("copy, "copy", argv[1], argv[2], 0);
+  execl("copy", "copy", argv[1], argv[2], 0);
 
 wait((int *) 0);
 printf("copy done\n");
@@ -247,13 +245,6 @@ the process copies `oldfile` to `newfile` and prints the message. behind the sce
 
 
 The `shell` program, the interpreter you get once you logged in , translates a command line as a command name. for several commands, the shell `forks`, and the `child` process  `execs` the command associated with the name, treating the remaining words of the command line as parameters for the command.
-
-```
-$shell> ps
-fork ->
-  $shell child> exec ps
-exit
-```
 
 The `shell` allows 3 types of commands:
 
@@ -339,16 +330,16 @@ file3.c: main()
 
 ## 1.4 Operating system services
 
-The figure depicts the kernel and user layer (add image here):
-
+![User and Kernel mode](https://www.usna.edu/Users/cs/aviv/classes/ic221/s16/lec/11/images/images.003.jpg)
+[Image Reference](https://www.usna.edu/Users/cs/aviv/classes/ic221/s16/lec/11/lec.html)
 
 The kernel performs operations on behalf of user processes to support the user interface described above:
 
 - Controlling execution of processes by allowing their creation, termination or suspension, and communication
 
-- Scheduling processes fairly for execution on the CPU. Processes share the CPU in a `time-shared` fashion. The CPU executes a process, the kernel suspends it when it's `time quantum` elapses, and the kernel schedules another process to execute. The kernel later reschedules the suspended process.
+- Scheduling processes fairly for execution on the CPU. Processes share the CPU in a `time-shared` fashion. The CPU executes a process, the kernel suspends it when it's `time quantum` elapses, and the kernel schedules **another** process to execute. The kernel later **reschedules** the suspended process.
 
-- Allocating main memory for an executing process. The kernel allows processes to share portion of their memory address space under some conditions, but protects the private space of a process from outside tampering (other process cannot read address space from another process).
+- Allocating main memory for an executing process. The kernel allows processes to **share** portion of their memory address space under some conditions, but **protects** the private space of a process from outside tampering (other process cannot read address space from another process).
 
 - If the kernel is low in memory, it frees memory by writing a process to a secondary memory called `swap`. If the kernel write the entire processes to a `swap` device, the implementation of the UNIX system is called `swapping system`; if it writes pages of memory to a real `swap` device it is called `paging system`.
 
@@ -366,8 +357,6 @@ The main differences are:
 For example the virtual address space of a process could be divided between addresses that are accessible only in kernel mode and addresses that are accessible in either mode.
 
 - Some machine instructions are privileged and result in an error when executed in `user mode`. For example, a machine may contain an instruction that manipulates the processor status register; processes executing in user mode should not have this capability.
-
-ADD FIGURE USER AND KERNEL PROCESS HERE
 
 In summary, the hardware views the world in terms of user and kernel mode and doesn't know about users executing processes in those modes. the OS keeps an internal record about the processes running on the system. The previous figure shows the distinction, the kernel distinguishes between processes A,B,C and D on the horizontal axis, and the hardware distinguishes the mode of execution in the vertical axis.
 
@@ -389,10 +378,13 @@ An `exception` condition referes to unexpected events caused by a process, such 
 The kernel must sometimes prevent the ocurrence of interrumpts during critical activity, which could result in corrupted data if interrupts were allowed. For instance, the kernel may not want to receive a disk interrupt while manipulating `linked lists`, because handling the interrupt could corrupt the `pointers` (see next chapter).
 
 Computers typically have a set of privileged instructions that set the processor execution level in the processor status word. Setting the processor execution level to certain values masks off interrupts from that level and lower levels, allowing only `high-levels` interrupts. Figure 1.6 shows a sample set of execution levels.
+
 If the kernel masks out disk interrupts, all interrupts except for `clock` interrupts and machine error
 interrupts are prevented. If it masks out software interrupts, `all` other interrupts may occur.
 
+![Interrupt Priority Level](https://flylib.com/books/2/830/1/html/2/images/int_levels_3_15.jpg)
 
+[Image Reference](https://flylib.com/books/en/2.830.1.46/1/)
 
 ## 1.5.3 Memory Management
 
