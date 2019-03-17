@@ -51,3 +51,94 @@ variety of capabilities, including solid-state drives (SSDs) and graphics proces
 PERF 2: How do you select your compute solution?
 The optimal compute solution for a system varies based on application design, usage patterns, and configuration settings. Architectures may use different compute solutions for various
 components and enable different features to improve performance. Selecting the wrong compute solution for an architecture can lead to lower performance efficiency.
+
+## Storage
+
+The optimal storage solution for a particular system will vary based on the kind of access method (block, file, or object), patterns of access (random or sequential), throughput required, frequency of access (online, offline, archival), frequency of update (WORM, dynamic), and availability and durability constraints. Well-architected
+systems use multiple storage solutions and enable different features to improve performance.
+
+In AWS, storage is virtualized and is available in a number of different types. This makes it easier to match your storage methods more closely with your needs, and also
+offers storage options that are not easily achievable with on- premises infrastructure. For example, Amazon S3 is designed for 11 nines of durability. You can also change
+from using magnetic hard disk drives (HDDs) to SSDs, and easily move virtual drives from one instance to another in seconds.
+
+```
+PERF 3: How do you select your storage solution?
+The optimal storage solution for a system varies based on the kind of access method (block, file, or object), patterns of access (random or sequential), required throughput, frequency of access (online, offline, archival), frequency of update (WORM, dynamic), and availability and durability constraints. Well-architected systems use multiple storage solutions and enable different features to improve performance and use resources efficiently.
+```
+
+## Database
+
+Amazon RDS provides a fully managed relational database. With Amazon RDS, you can scale your database's compute and storage resources, often with no downtime.
+Amazon DynamoDB is a fully managed NoSQL database that provides single-digit millisecond latency at any scale. Amazon Redshift is a managed petabyte-scale
+data warehouse that allows you to change the number or type of nodes as your performance or capacity needs change.
+
+```
+PERF 4: How do you select your database solution?
+The optimal database solution for a system varies based on requirements for availability, consistency, partition tolerance, latency, durability, scalability, and query capability. Many systems use different database solutions for various sub-systems and enable different features to improve performance. Selecting the wrong database solution and features for a system can lead to lower performance efficiency.
+```
+
+## Network
+
+In AWS, networking is virtualized and is available in a number of different types and configurations. This makes it easier to match your networking methods more closely
+with your needs. AWS offers product features (for example, Enhanced Networking, Amazon EBS-optimized instances, Amazon S3 transfer acceleration, dynamic Amazon
+CloudFront) to optimize network traffic. AWS also offers networking features (for example, Amazon Route 53 latency routing, Amazon VPC endpoints, and AWS Direct
+Connect) to reduce network distance or jitter.
+
+```
+PERF 5: How do you configure your networking solution?
+The optimal network solution for a system varies based on latency, throughput requirements, and so on. Physical constraints such as user or on-premises resources drive location options, which can be offset using edge techniques or resource placement.
+```
+
+## Review
+
+```
+PERF 6: How do you evolve your workload to take advantage of new releases? When architecting workloads, there are finite options that you can choose from. However, over
+time, new technologies and approaches become available that could improve the performance of your workload.
+```
+
+## Monitoring
+
+After you have implemented your architecture you will need to monitor its performance so that you can remediate any issues before your customers are aware.
+Monitoring metrics should be used to raise alarms when thresholds are breached. The alarm can trigger automated action to work around any badly performing
+components.
+
+```
+PERF 7: How do you monitor your resources to ensure they are performing as expected?
+System performance can degrade over time. Monitor system performance to identify this degradation and remediate internal or external factors, such as the operating system or
+application load.
+```
+
+## Tradeoffs
+
+When you architect solutions, think about tradeoffs so you can select an optimal approach. Depending on your situation you could trade consistency, durability, and
+space versus time or latency to deliver higher performance
+
+```
+PERF 8: How do you use tradeoffs to improve performance?
+When architecting solutions, actively considering tradeoffs enables you to select an optimal approach. Often you can improve performance by trading consistency, durability, and space for time and latency.
+```
+
+## Key AWS Services
+
+- AWS CloudWatch is the essential to performance efficiency
+- Selection:
+  - *Compute*: Autoscaling
+  - *Storage*: EBS (SSD, PIOS), S3 (S3 transfer accelaration)
+  - *Database*: RDS (replicas, PIOS), DynamoDB (1ms latency)
+  - *Network*: Route53, VPC (direct connect, endpoints)
+- Review: AWS blog and whats new section on website to follow latest news and releases
+- Monitoring: Cloudwatch (alarms, notifications) and integration with Lambda
+- Tradeoffs: AWS ElastiCache, AWS Cloudfront, AWS Snowball. RDS replicas can help to scale heavy read-only workloads. 
+
+## Additional resources
+
+Documentation
+- Amazon S3 Performance Optimization
+- Amazon EBS Volume Performance
+
+Whitepaper
+- Performance Efficiency Pillar
+
+Video
+- AWS re:Invent 2016: Scaling Up to Your First 10 Million Users (ARC201)
+- AWS re:Invent 2017: Deep Dive on Amazon EC2 Instances
