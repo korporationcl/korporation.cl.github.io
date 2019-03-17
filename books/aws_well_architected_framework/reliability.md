@@ -65,3 +65,31 @@ Disaster recovery (DR) is critical should restoration of data be required from b
 - foundations: IAM, VPC, Trusted advisor, Shield
 - Change management: Cloudtrail, Config, Autoscaling, CloudWatch
 - Failure management: CloudFormation, S2, Glacier, KMS
+
+## Additional resources
+
+Refer to the following resources to learn more about our best practices for Reliability.
+
+Documentation
+- [Service Limits](http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html)
+- [Service Limits Reports Blog](http://aws.amazon.com/about-aws/whats-new/2014/06/19/amazon-ec2-service-limits-report-now-available/)
+- [Amazon Virtual Private Cloud](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Introduction.html)
+- [AWS Shield](http://docs.aws.amazon.com/waf/latest/developerguide/shield-chapter.html)
+- [Amazon CloudWatch](http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html)
+- [Amazon S3](http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html)
+- [AWS KMS](http://docs.aws.amazon.com/kms/latest/developerguide/overview.html)
+
+Whitepaper
+- [Reliability Pillar](https://d0.awsstatic.com/whitepapers/architecture/AWS-Reliability-Pillar.pdf)
+- [Backup Archive and Restore Approach Using AWS](http://d0.awsstatic.com/whitepapers/Backup_Archive_and_Restore_Approaches_Using_AWS.pdf)
+- [Managing your AWS Infrastructure at Scale](http://d0.awsstatic.com/whitepapers/managing-your-aws-infrastructure-at-scale.pdf)
+- [AWS Disaster Recovery](http://media.amazonwebservices.com/AWS_Disaster_Recovery.pdf)
+- [AWS Amazon VPC Connectivity Options](http://media.amazonwebservices.com/AWS_Amazon_VPC_Connectivity_Options.pdf)
+
+Video
+- [How do I manage my AWS service limits?](https://aws.amazon.com/premiumsupport/knowledge-center/manage-service-limits/)
+- [Embracing Failure: Fault-Injection and Service Reliability](https://www.youtube.com/watch?v=wrY7XoOnysg)
+
+Product
+- [AWS Premium Support](https://aws.amazon.com/premiumsupport/)
+- [Trusted Advisor](https://aws.amazon.com/premiumsupport/trustedadvisor/)

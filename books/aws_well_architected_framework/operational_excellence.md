@@ -132,3 +132,14 @@ that support the 3 areas of operational excellence:
 - Prepare: AWS Config and AWS Config rules can be used to create standards for workloads.
 - Operate: Amazon CloudWatch allows to monitor the health of your workload
 - Evolve: Amazon ElasticSearch service (Amazon ES) allows you to analyze your log data to gain actionable insights quickly and securely.
+
+## Addiotional resources
+
+Documentation
+- [DevOps and AWS](https://aws.amazon.com/devops/)
+
+Whitepaper
+- [Operational Excellence Pillar](https://d0.awsstatic.com/whitepapers/architecture/AWS-Operational-Excellence-Pillar.pdf)
+
+Video
+- [DevOps at Amazon](https://www.youtube.com/watch?v=esEFaY0FDKc)

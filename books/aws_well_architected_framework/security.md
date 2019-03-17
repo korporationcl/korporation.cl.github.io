@@ -126,3 +126,20 @@ common web exploits.
 - Amazon Macie automatically discovers, classifies and protects sensitive data.
 - AWS KMS can be use to create and manage keys for encryption
 - Incident Response, using CloudFormation we can automated actions based on CloudWath events, then processed the response on AWS Lambda.
+
+## Additional resources
+
+Documentation
+- [AWS Cloud Security](http://aws.amazon.com/security/)
+- [AWS Compliance](https://aws.amazon.com/compliance/)
+- [AWS Security Blog](http://blogs.aws.amazon.com/security/)
+
+Whitepaper
+- [Security Pillar](https://d0.awsstatic.com/whitepapers/architecture/AWS-Security-Pillar.pdf)
+- [AWS Security Overview](https://d0.awsstatic.com/whitepapers/Security/AWS%20Security%20Whitepaper.pdf)
+- [AWS Security Best Practices](https://aws.amazon.com/whitepapers/aws-security-best-practices/)
+- [AWS Risk and Compliance](https://d0.awsstatic.com/whitepapers/compliance/AWS_Risk_and_Compliance_Whitepaper.pdf)
+
+Video
+- [AWS Security State of the Union](https://youtu.be/Wvyc-VEUOns)
+- [Shared Responsibility Overview](https://www.youtube.com/watch?v=U632-ND7dKQ)

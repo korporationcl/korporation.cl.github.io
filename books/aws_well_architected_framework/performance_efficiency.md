@@ -133,12 +133,12 @@ When architecting solutions, actively considering tradeoffs enables you to selec
 ## Additional resources
 
 Documentation
-- Amazon S3 Performance Optimization
-- Amazon EBS Volume Performance
+- [Amazon S3 Performance Optimization](http://docs.aws.amazon.com/AmazonS3/latest/dev/PerformanceOptimization.html)
+- [Amazon EBS Volume Performance](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSPerformance.html)
 
 Whitepaper
-- Performance Efficiency Pillar
+- [Performance Efficiency Pillar](https://d0.awsstatic.com/whitepapers/architecture/AWS-Performance-Efficiency-Pillar.pdf)
 
 Video
-- AWS re:Invent 2016: Scaling Up to Your First 10 Million Users (ARC201)
-- AWS re:Invent 2017: Deep Dive on Amazon EC2 Instances
+- [AWS re:Invent 2016: Scaling Up to Your First 10 Million Users (ARC201)](https://www.youtube.com/watch?v=n28lDDdlnVg)
+- [AWS re:Invent 2017: Deep Dive on Amazon EC2 Instances](https://www.youtube.com/watch?v=mZy6E2I5Rek)
