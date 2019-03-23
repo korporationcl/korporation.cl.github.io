@@ -78,23 +78,130 @@ OPS 1: How do you determine what your priorities are?
 Everyone needs to understand their part in enabling business success. Have shared goals in order to set priorities for resources. 
 This will maximize the benefits of your efforts.
 
+Best practices:
+- Evaluate external customer needs: Involve key stakeholders, including business, development, and operations teams, to determine where to focus operations efforts on
+external customer needs. This will ensure that you have a thorough understanding of the operations support that is required to achieve business outcomes.
+
+- Evaluate internal customer needs: Involve key stakeholders, including business, development, and operations teams, when determining where to focus operations efforts
+on internal customer needs. This will ensure that you have a thorough understanding of the operations support that is required to achieve business outcomes.
+
+- Evaluate compliance requirements: Evaluate external factors, such as regulatory compliance requirements and industry standards, to ensure that you are aware of
+guidelines or obligations that may mandate or emphasize specific focus. If no compliance requirements are identified, ensure that you apply due diligence to this determination.
+
+- Evaluate threat landscape: Evaluate threats to the business (for example, competition, business risk and liabilities, operational risks, and information security threats), so that you can include their impact when determining where to focus operations efforts.
+
+- Evaluate tradeoffs: Evaluate the impact of tradeoffs between competing interests, to help make informed decisions when determining where to focus operations efforts. For
+example, accelerating speed to market for new features may be emphasized over cost optimization.
+
+- Manage benefits and risks: Manage benefits and risks to make informed decisions when determining where to focus operations efforts. For example, it may be beneficial to deploy
+a system with unresolved issues so that significant new features can be made available to customers.
+
 OPS 2: How do you design your workload so that you can understand its state?
 
 Design your workload so that it provides the information necessary for you to understand its internal state (for example, metrics, logs, and traces) 
 across all components. This enables you to provide effective responses when appropriate.
+
+Best practices:
+- Implement application telemetry: Instrument your application code to emit information about its internal state, status, and achievement of business outcomes. For example, queue
+depth, error messages, and response times. Use this information to determine when a response is required.
+
+- Implement and configure workload telemetry: Design and configure your workload to emit information about its internal state and current status. For example, API call volume,
+http status codes, and scaling events. Use this information to help determine when a response is required.
+
+- Implement user activity telemetry: Instrument your application code to emit information about user activity. For example, click streams, or started, abandoned, and completed
+transactions. Use this information to help understand how the application is used, patterns of usage, and to determine when a response is required.
+
+- Implement dependency telemetry: Design and configure your workload to emit information about the status of resources it depends on. Examples of these are external
+databases, DNS, and network connectivity. Use this information to determine when a response is required.
+
+- Implement transaction traceability: Implement your application code and configure your workload components to emit information about the flow of transactions across the
+workload. Use this information to determine when a response is required and to assist in identifying the root cause of issues.
 
 OPS 3: How do you reduce defects, ease remediation, and improve flow into production?
 Adopt approaches that improve flow of changes into production, that enable refactoring, fast feedback on quality, and bug fixing. 
 These accelerate beneficial changes entering production, limit issues deployed, and enable rapid identification and remediation of issues introduced
 through deployment activities.
 
+
+Best practices:
+- Use version control: Use version control to enable tracking of changes and releases.
+
+- Test and validate changes: Test and validate changes to help limit and detect errors. Automate testing to reduce errors caused by manual processes, and reduce the level of
+effort to test.
+
+- Use configuration management systems: Use configuration management systems to make and track configuration changes. These systems reduce errors caused by manual
+processes and reduce the level of effort to deploy changes.
+
+- Use build and deployment management systems: Use build and deployment management systems. These systems reduce errors caused by manual processes and
+reduce the level of effort to deploy changes.
+
+- Perform patch management: Perform patch management to gain features, address issues, and remain compliant with governance. Automate patch management to reduce
+errors caused by manual processes, and reduce the level of effort to patch.
+
+- Share design standards: Share best practices across teams to increase awareness and maximize the benefits of development efforts.
+
+- Implement practices to improve code quality: Implement practices to improve code quality and minimize defects. For example, test-driven development, code reviews, and
+standards adoption.
+
+- Use multiple environments: Use multiple environments to experiment, develop, and test your workload. Use increasing levels of controls to gain confidence your workload will
+operate as intended.
+
+- Make frequent, small, reversible changes: Frequent, small, and reversible changes reduce the scope and impact of a change. This eases troubleshooting, enables faster remediation, and provides the option to roll back a change.
+
+- Fully automate integration and deployment: Automate build, deployment, and testing of the workload. This reduces errors caused by manual processes and reduces the effort to
+deploy changes.
+
 OPS 4: How do you mitigate deployment risks?
 Adopt approaches that provide fast feedback on quality and enable rapid recovery from changes that do not have desired outcomes. 
 Using these practices mitigates the impact of issues introduced through the deployment of changes.
 
+
+Best practices:
+- Plan for unsuccessful changes: Plan to revert to a known good state, or remediate in the production environment if a change does not have the desired outcome. This preparation
+reduces recovery time through faster responses.
+
+- Test and validate changes: Test changes and validate the results at all lifecycle stages, to confirm new features and minimize the risk and impact of failed deployments.
+
+- Use deployment management systems: Use deployment management systems to track and implement change. This reduces errors cause by manual processes and reduces the
+effort to deploy changes.
+
+- Test using limited deployments: Test with limited deployments alongside existing systems to confirm desired outcomes prior to full scale deployment. For example, use
+deployment canary testing or one-box deployments.
+
+- Deploy using parallel environments: Implement changes onto parallel environments, and then transition to the new environment. Maintain the prior environment until there
+is confirmation of successful deployment. Doing so minimizes recovery time by enabling rollback to the previous environment.
+
+- Deploy frequent, small, reversible changes: Use frequent, small, and reversible changes to reduce the scope of a change. This results in easier troubleshooting and faster
+remediation with the option to roll back a change.
+
+- Fully automate integration and deployment: Automate build, deployment, and testing of the workload. This reduces errors cause by manual processes and reduces the effort to
+deploy changes.
+
+- Automate testing and rollback: Automate testing of deployed environments to confirm desired outcomes. Automate rollback to previous known good state when outcomes are
+not achieved to minimize recovery time and reduce errors caused by manual processes.
+
 OPS 5: How do you know that you are ready to support a workload?
 Evaluate the operational readiness of your workload, processes and procedures, and personnel to understand the operational risks related to your workload.
 
+Best practices:
+- Ensure personnel capability: Have a mechanism to validate that you have an appropriate number of trained personnel to provide support for operational needs. Train personnel
+and adjust personnel capacity as necessary to maintain effective support.
+
+- Ensure consistent review of operational readiness: Ensure you have a consistent review of your readiness to operate a workload. Review must include at a minimum
+the operational readiness of the teams and the workload, and security considerations. Implement review activities in code and trigger automated review in response to events
+where appropriate, to ensure consistency, speed of execution, and reduce errors caused by manual processes.
+
+- Use runbooks to perform procedures: Runbooks are documented procedures to achieve specific outcomes. Enable consistent and prompt responses to well-understood events
+by documenting procedures in runbooks. Implment runbooks as code and trigger the execution of runbooks in response to events where appropriate, to ensure consistency,
+speed responses, and reduce errors caused by manual processes.
+
+- Use playbooks to identify issues: Playbooks are documented processes to investigate issues. Enable consistent and prompt responses to failure scenarios by documenting
+investigation processes in playbooks. Implement playbooks as code and trigger playbook execution in response to events where appropriate, to ensure consistency, speed
+responses, and reduce errors caused by manual processes.
+
+- Make informed decisions to deploy systems and changes: Evaluate the capabilities of the team to support the workload and the workload's compliance with governance. Evaluate
+these against the benefits of deployment when determining whether to transition a system or change into production. Understand the benefits and risks to make informed
+decisions.
 
 ### Operate
 
