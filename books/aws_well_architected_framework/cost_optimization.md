@@ -35,10 +35,29 @@ There are four best practice areas for cost optimization in the cloud:
 COST 1: How do you govern usage?
 Establish policies and mechanisms to ensure that appropriate costs are incurred while objectives are achieved. By employing a checks-and-balances approach, you can innovate
 without overspending.
+```
 
+Best practices:
+- Develop policies based on your organization requirements: Develop policies that define how resources are managed by your organization. Policies should cover cost aspects of
+resources and workloads, including creation, modification and decommission over the resource lifetime. Also develop cost targets and goals for workloads.
+
+- Implement an account structure: Implement a structure of accounts that maps to your organization. This assists in allocating and managing costs throughout your organization.
+
+• Implement groups and roles: Implement groups and roles that align to your policies and control who can create, modify, or decommission instances and resources in each group; for example, development, test, and production groups. This applies to AWS services and third-party solutions.
+
+- Implement cost controls: Implement controls based on organization policies and defined groups and roles. These ensure that costs are only incurred as defined by organization
+requirements; for example, control access to regions or resource types with IAM policies.
+
+- Track project lifecycle: Track, measure, and audit the lifecycle of projects, teams, and environments to avoid using and paying for unnecessary resources.
+
+
+
+```
 COST 2: How do you monitor usage and cost?
 Establish policies and procedures to monitor and appropriately allocate your costs. This allows you to measure and improve the cost efficiency of this workload.
+```
 
+```
 COST 3: How do you decommission resources?
 Implement change control and resource management from project inception to end-of-life. This ensures you shut down or terminate unused resources to reduce waste.
 ```

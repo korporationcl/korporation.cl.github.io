@@ -214,13 +214,79 @@ decisions.
 OPS 6: How do you understand the health of your workload?
 Define, capture, and analyze workload metrics to gain visibility to workload events so that you can take appropriate action.
 
+Best practices:
+- Identify key performance indicators: Identify key performance indicators (KPIs) based on desired business and customer outcomes. Evaluate KPIs to determine workload success.
+
+- Define workload metrics: Define workload metrics to measure the achievement of KPIs. Define workload metrics to measure the health of the workload. Evaluate metrics to
+determine if the workload is achieving desired outcomes, and to understand the health of the workload.
+
+- Collect and analyze workload metrics: Perform regular proactive reviews of metrics to
+identify trends and determine where appropriate responses are needed.
+
+- Establish workload metrics baselines: Establish baselines for metrics to provide expected values as the basis for comparison and identification of under and over performing
+components.
+- Learn expected patterns of activity for workload: Establish patterns of workload activity to determine when behavior is outside of the expected values so that you can respond
+appropriately if required.
+
+- Alert when workload outcomes are at risk: Raise an alert when workload outcomes are at risk so that you can respond appropriately if required.
+
+- Alert when workload anomalies are detected: Raise an alert when workload anomalies are detected so that you can respond appropriately if required.
+
+- Validate the achievement of outcomes and the effectiveness of KPIs and metrics: Create a business-level view of your workload operations to help you determine if you
+are satisfying needs and to identify areas that need improvement to reach business goals. Validate the effectiveness of KPIs and metrics and revise them if necessary.
+
+
 OPS 7: How do you understand the health of your operations?
 Define, capture, and analyze operations metrics to gain visibility to operations events so that you can take appropriate action.
+
+Best practices:
+- Identify key performance indicators: Identify key performance indicators (KPIs) based on desired business and customer outcomes. Evaluate KPIs to determine operations success.
+
+- Define operations metrics: Define operations metrics to measure the achievement of KPIs. Define operations metrics to measure the health of the operations. Evaluate metrics to
+determine if the operations are achieving desired outcomes, and to understand operations health.
+
+- Collect and analyze operations metrics: Perform regular proactive reviews of metrics to identify trends and determine where appropriate responses are needed.
+
+- Establish operations metrics baselines: Establish baselines for metrics to provide expected values as the basis for comparison and identification of under and over
+performing processes.
+
+- Learn the expected patterns of activity for operations: Establish baselines for metrics to provide expected values as the basis for comparison.
+
+- Alert when operations outcomes are at risk: Raise an alert when operations outcomes are at risk so that you can respond appropriately if required.
+
+- Alert when operations anomalies are detected: Raise an alert when operations anomalies are detected so that you can respond appropriately if required.
+
+- Validate the achievement of outcomes and the effectiveness of KPIs and metrics: Create a business-level view of your operations activities to help you determine if you are
+satisfying needs and to identify areas that need improvement to reach business goals. Validate the effectiveness of KPIs and metrics and revise them if necessary.
 
 OPS 8: How do you manage workload and operations events?
 Prepare and validate procedures for responding to events to minimize their disruption to your workload.
 
-- Manual processes for deployment, release management, changes and rollback should be voided (all the things should be automated).
+Best practices:
+- Use processes for event, incident, and problem management: Have processes to address observed events, events that require intervention (incidents), and events that require
+intervention and either recur or cannot currently be resolved (problems). Use these processes to mitigate the impact of these events on the business and your customers by
+ensuring timely and appropriate responses.
+
+- Use a process for root cause analysis: Have a process to identify and document the root cause of an event so that you can develop mitigations to limit or prevent recurrence and
+you can develop procedures for prompt and effective responses. Communicate root cause as appropriate, tailored to target audiences.
+
+- Have a process per alert: Have a well-defined response (runbook or playbook), with a specifically identified owner, for any event for which you raise an alert. This ensures
+effective and prompt responses to operations events and prevents actionable events from being obscured by less valuable notifications.
+
+- Prioritize operational events based on business impact: Ensure that when multiple events require intervention, those that are most significant to the business are addressed
+first. For example, impacts can include loss of life or injury, financial loss, or damage to reputation or trust.
+
+- Define escalation paths: Define escalation paths in your runbooks and playbooks, including what triggers escalation, and procedures for escalation. Specifically identify
+owners for each action to ensure effective and prompt responses to operations events.
+
+- Enable push notifications: Communicate directly with your users (for example, with email or SMS) when the services they use are impacted, and when the services return to normal
+operating conditions, to enable users to take appropriate action.
+
+- Communicate status through dashboards: Provide dashboards tailored to their target audiences (for example, internal technical teams, leadership, and customers) to
+communicate the current operating status of the business and provide metrics of interest.
+
+- Automate responses to events: Automate responses to events to reduce errors caused by manual processes, and to ensure prompt and consistent responses.
+
 
 ### Evolve
 With AWS Developer tools you can implement continous delivery build, test and deployment activities. The results of deployments can be used 
@@ -230,6 +296,24 @@ opportunities and methods for improvements.
 
 OPS 9: How do you evolve operations?
 Dedicate time and resources for continuous incremental improvement to evolve the effectiveness and efficiency of your operations.
+
+Best practices:
+- Have a process for continuous improvement: Regularly evaluate and prioritize opportunities for improvement to focus efforts where they can provide the greatest
+benefits.
+
+- Implement feedback loops: Include feedback loops in your procedures and workloads to help you identify issues and areas that need improvement.
+
+- Define drivers for improvement: Identify drivers for improvement to help you evaluate and prioritize opportunities.
+
+- Validate insights: Review your analysis results and responses with cross-functional teams and business owners. Use these reviews to establish common understanding, identify
+additional impacts, and determine courses of action. Adjust responses as appropriate.
+
+- Perform operations metrics reviews: Regularly perform retrospective analysis of operations metrics with cross-team participants from different areas of the business. Use
+these reviews to identify opportunities for improvement, potential courses of action, and to share lessons learned.
+
+- Document and share lessons learned: Document and share lessons learned from the execution of operations activities so that you can use them internally and across teams.
+
+- Allocate time to make improvements: Dedicate time and resources within your processes to make continuous incremental improvements possible.
 
 ### Key AWS Services
 
