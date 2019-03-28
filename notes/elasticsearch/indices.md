@@ -55,3 +55,35 @@ The update API also accepts the routing, consistency, and timeout parameters tha
 >> When a primary shard forwards changes to its replica shards, it doesn’t forward the update request. Instead it forwards the new version of the full document. Remember that 
 >> these changes are forwarded to the replica shards **asynchronously**, and there is no guarantee that they will arrive in the same order that they were sent. If Elasticsearch 
 >> forwarded just the change, it is possible that changes would be applied in the wrong order, resulting in a corrupt document.
+
+# Multidocument patterns (get)
+
+The patterns for the mget and bulk APIs are similar to those for individual documents. The difference is that the coordinating node knows in which shard each document lives. It breaks up the multidocument request into a multidocument request per shard, and forwards these in parallel to each participating node.
+
+Once it receives answers from each node, it collates their responses into a single response, which it returns to the client, as shown in Figure 12, “Retrieving multiple documents with mget”.
+
+![Retrieving multiple documents with mget](/assets/elas_0405.png)
+
+Here is the sequence of steps necessary to retrieve multiple documents with a single mget request:
+
+1. The client sends an mget request to Node 1.
+2. Node 1 builds a multi-get request per shard, and forwards these requests in parallel to the nodes hosting each required primary or replica shard. Once all replies have been received, Node 1 builds the response and returns it to the client.
+
+A routing parameter can be set for each document in the docs array.
+
+The bulk API, as depicted in Figure 13, “Multiple document changes with bulk”, allows the execution of multiple create, index, delete, and update requests within a single bulk request.
+
+# Multiple document changes with bulk
+
+![Multipe update with bulk](/assets/elas_0406.png)
+
+The sequence of steps followed by the bulk API are as follows:
+
+1. The client sends a bulk request to Node 1.
+
+2. Node 1 builds a bulk request per shard, and forwards these requests in parallel to the nodes hosting each involved primary shard.
+
+3. The primary shard executes each action serially, one after another. As each action succeeds, the primary forwards the new document (or deletion) to its replica shards in 
+parallel, and then moves on to the next action. Once all replica shards report success for all actions, the node reports success to the coordinating node, which collates the responses and returns them to the client.
+
+The bulk API also accepts the consistency parameter at the top level for the whole bulk request, and the routing parameter in the metadata for each request.
