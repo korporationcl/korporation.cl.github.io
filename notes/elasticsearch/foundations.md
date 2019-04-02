@@ -2,7 +2,7 @@
 - An index is where the documents or data is store in ElasticSearch (you search for documents and documents can be indexed and the results go in the "index")
 - A document is searchable after is "indexed". It usually happens after 1 second.
 - An index is composed by a shard, which is an instance of Lucene.
-- Each node can hold one or more indices | shards.
+- Each node can hold one or more indices or shards.
 - When you create an index is associated to only one shard. That's why you can't change the size of the shards once the index is created.
 - Replica's size can change dynamically at any time (scaling out or in)
 
