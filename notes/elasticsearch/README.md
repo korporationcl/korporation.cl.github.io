@@ -1,3 +1,3 @@
 ## Items
 
-- [indices](indices.md)
+- [foundational concepts](foundations.md)
