@@ -1,8 +1,31 @@
 # What's an index?
-- An index is where the documents or data is store in ElasticSearch. 
-- An index is composed by a shard, which is an instance of Lucene. 
+- An index is where the documents or data is store in ElasticSearch (you search for documents and documents can be indexed and the results go in the "index")
+- A document is searchable after is "indexed". It usually happens after 1 second.
+- An index is composed by a shard, which is an instance of Lucene.
+- Each node can hold one or more indices | shards.
 - When you create an index is associated to only one shard. That's why you can't change the size of the shards once the index is created.
 - Replica's size can change dynamically at any time (scaling out or in)
+
+# What's a shard?
+
+- A shard is where your index are.
+- Indices are partitioned into shards so that they can be distributed among other nodes.
+- Every shard is a separate instance of Apache Lucene.
+- Every index can be sharded
+  - Default number of shards is `5`
+  - You can only specify the number of shards for an index during the creation of the index. Once set there is no way to change it.
+- Shards can be `Primary` or `Replica`
+  - Primaries are the ones where the `write` operations are performed
+  - Replicas are where the `read` operations happen. When a document gets updated you get a new copy of the document, instead of updating the document on the replica.
+  - An index must have at least `1` Primary shard. Replicas can be set to `0`, although if you have an outage your data might be gone.
+
+## Basic API to interact with ElasticSearch
+
+- PUT
+- GET
+- POST
+- HEAD
+- DELETE
 
 # What happens when you create an index on a cluster?
 
@@ -52,8 +75,8 @@ The update API also accepts the routing, consistency, and timeout parameters tha
 
 >> Document-Based Replication
 >>
->> When a primary shard forwards changes to its replica shards, it doesn’t forward the update request. Instead it forwards the new version of the full document. Remember that 
->> these changes are forwarded to the replica shards **asynchronously**, and there is no guarantee that they will arrive in the same order that they were sent. If Elasticsearch 
+>> When a primary shard forwards changes to its replica shards, it doesn’t forward the update request. Instead it forwards the new version of the full document. Remember that
+>> these changes are forwarded to the replica shards **asynchronously**, and there is no guarantee that they will arrive in the same order that they were sent. If Elasticsearch
 >> forwarded just the change, it is possible that changes would be applied in the wrong order, resulting in a corrupt document.
 
 # Multidocument patterns (get)
@@ -83,7 +106,7 @@ The sequence of steps followed by the bulk API are as follows:
 
 2. Node 1 builds a bulk request per shard, and forwards these requests in parallel to the nodes hosting each involved primary shard.
 
-3. The primary shard executes each action serially, one after another. As each action succeeds, the primary forwards the new document (or deletion) to its replica shards in 
+3. The primary shard executes each action serially, one after another. As each action succeeds, the primary forwards the new document (or deletion) to its replica shards in
 parallel, and then moves on to the next action. Once all replica shards report success for all actions, the node reports success to the coordinating node, which collates the responses and returns them to the client.
 
 The bulk API also accepts the consistency parameter at the top level for the whole bulk request, and the routing parameter in the metadata for each request.
