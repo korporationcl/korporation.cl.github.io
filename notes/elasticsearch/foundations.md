@@ -19,6 +19,48 @@
   - Replicas are where the `read` operations happen. When a document gets updated you get a new copy of the document, instead of updating the document on the replica.
   - An index must have at least `1` Primary shard. Replicas can be set to `0`, although if you have an outage your data might be gone.
 
+# What's Lucene?
+
+## Key points
+- Lucene is an open source project and is where your data rest.
+- Lucene creates an inverted index of your data and it's data structure is called a "segment".
+- The invertex index once is written to disk is "immutable", which means it doesn't change once is created, ever.
+- Lucene creates and merge segments at will (small ones are merged into a bigger one)
+- A commit point is a file which lists all the known segments (ready for search)
+
+
+A segment is an inverted index in its own right, but now the word index in Lucene came to mean a collection of segments plus a commit point—a file that lists all known segments
+
+![Lucene index with commit point of 3 segments](/assets/elas_1101.png)
+
+
+A per-segment search works as follows:
+
+1. New documents are collected in an in-memory indexing buffer. See “A Lucene index with new documents in the in-memory buffer, ready to commit”.
+2. Every so often, the buffer is commited:
+  - A new segment—a supplementary inverted index—is written to disk.
+  - A new commit point is written to disk, which includes the name of the new segment.
+  - The disk is fsync’ed—all writes waiting in the filesystem cache are flushed to disk, to ensure that they have been physically written.
+3. The new segment is opened, making the documents it contains visible to search.
+4. The in-memory buffer is cleared, and is ready to accept new documents.
+
+New documents are added first to **in-memory buffer indexing buffer**:
+
+![A Lucene index with new documents in memory, ready to commit](/assets/elas_1102.png)
+
+After a commit, a new segment is added to the commit point and the buffer is cleared:
+
+![After a commit, a new segment is added to the commit point and the buffer is cleared](/assets/elas_1103.png)
+
+When a query is issued, all known segments are queried in turn. Term statistics are aggregated across all segments to ensure that the relevance of each term and each document is calculated accurately. In this way, new documents can be added to the index relatively cheaply.
+
+## Deletes and Updates (documents)
+Segments are immutable, so documents cannot be removed from older segments, nor can older segments be updated to reflect a newer version of a document. Instead, every commit point includes a .del file that lists which documents in which segments have been deleted.
+
+When a document is “deleted,” it is actually just marked as deleted in the .del file. A document that has been marked as deleted can still match a query, but it is removed from the results list before the final query results are returned.
+
+Document updates work in a similar way: when a document is updated, the old version of the document is marked as deleted, and the new version of the document is indexed in a new segment. Perhaps both versions of the document will match a query, but the older deleted version is removed before the query results are returned.
+
 ## Basic API to interact with ElasticSearch
 
 - PUT
