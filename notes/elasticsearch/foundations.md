@@ -71,7 +71,7 @@ Document updates work in a similar way: when a document is updated, the old vers
 - HEAD
 - DELETE
 
-## Refresh - Near Realtime Search
+# Near Realtime Search
 
 With the development of per-segment search, the delay between indexing a document and making it visible to search dropped dramatically. New documents could be made searchable within minutes, but that still isn’t fast enough.
 
@@ -89,7 +89,9 @@ Figure “The buffer contents have been written to a segment, which is searchabl
 
 Lucene allows new segments to be written and opened—making the documents they contain **visible to search—without performing a full commit**. This is a much lighter process than a commit, and can be done frequently without ruining performance.
 
-## Refresh API
+- https://www.elastic.co/guide/en/elasticsearch/guide/current/near-real-time.html#near-real-time
+
+# Refresh API
 
 In Elasticsearch, this lightweight process of writing and opening a new segment is called a refresh. By default, every shard is refreshed automatically once every second. This is why we say that Elasticsearch has near real-time search: document changes are not visible to search immediately, but will become visible within 1 second.
 
@@ -99,8 +101,32 @@ You can adjust it executing:
 $ curl -XPOST 'localhost:9200/myindex/_settings?index.refresh_interval=30s'
 ```
 
-This would set the interval to 30 seconds.
+This would set the interval to 30 seconds. This can be confusing for new users: they index a document and try to search for it, and it just isn’t there. The way around this is to perform a manual refresh, with the refresh API:
 
+```
+POST /_refresh (1)
+POST /blogs/_refresh (2)
+```
+
+
+1. Refresh all indices.
+2. Refresh just the blogs index.
+
+# Tranlog (Transaction logs)
+
+Without an fsync to flush data in the filesystem cache to disk, we cannot be sure that the data will still be there after a power failure, or even after exiting the application normally. For Elasticsearch to be reliable, it needs to ensure that changes are persisted to disk.
+
+In Dynamically Updatable Indices, we said that a full commit flushes segments to disk and writes a commit point, which lists all known segments. Elasticsearch uses this commit point during startup or when reopening an index to decide which segments belong to the current shard.
+
+While we refresh once every second to achieve near real-time search, we still need to do full commits regularly to make sure that we can recover from failure. But what about the document changes that happen between commits? We don’t want to lose those either.
+
+Elasticsearch added a translog, or transaction log, which records every operation in Elasticsearch as it happens. With the translog, the process now looks like this:
+
+1. When a document is indexed, it is added to the in-memory buffer and appended to the translog, as shown in Figure “New documents are added to the in-memory buffer and appended to the transaction log”:
+
+![New documents added to in-memory and appended to translog](/assets/elas_1106.png)
+
+- https://www.elastic.co/guide/en/elasticsearch/guide/current/translog.html
 
 # What happens when you create an index on a cluster?
 
