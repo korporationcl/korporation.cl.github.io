@@ -61,13 +61,46 @@ When a document is “deleted,” it is actually just marked as deleted in the .
 
 Document updates work in a similar way: when a document is updated, the old version of the document is marked as deleted, and the new version of the document is indexed in a new segment. Perhaps both versions of the document will match a query, but the older deleted version is removed before the query results are returned.
 
-## Basic API to interact with ElasticSearch
+
+
+# Basic API to interact with ElasticSearch
 
 - PUT
 - GET
 - POST
 - HEAD
 - DELETE
+
+## Refresh - Near Realtime Search
+
+With the development of per-segment search, the delay between indexing a document and making it visible to search dropped dramatically. New documents could be made searchable within minutes, but that still isn’t fast enough.
+
+The bottleneck is the disk. Commiting a new segment to disk requires an fsync to ensure that the segment is physically written to disk and that data will not be lost if there is a power failure. But an fsync is costly; it cannot be performed every time a document is indexed without a big performance hit.
+
+What was needed was a more lightweight way to make new documents visible to search, which meant removing fsync from the equation.
+
+Sitting between Elasticsearch and the disk is the filesystem cache. As before, documents in the in-memory indexing buffer, Figure “A Lucene index with new documents in the in-memory buffer”) are written to a new segment:
+
+![A Lucene index with new documents in buffer](/assets/elas_1104.png)
+
+Figure “The buffer contents have been written to a segment, which is searchable, but is not yet commited”). But the new segment is **written to the filesystem cache first—which** is cheap—and only later is it flushed to disk—which is expensive. But once a file is in the cache, it can be opened and read, just like any other file.
+
+![The buffer have been written to segment](/assets/elas_1105.png)
+
+Lucene allows new segments to be written and opened—making the documents they contain **visible to search—without performing a full commit**. This is a much lighter process than a commit, and can be done frequently without ruining performance.
+
+## Refresh API
+
+In Elasticsearch, this lightweight process of writing and opening a new segment is called a refresh. By default, every shard is refreshed automatically once every second. This is why we say that Elasticsearch has near real-time search: document changes are not visible to search immediately, but will become visible within 1 second.
+
+You can adjust it executing:
+
+```
+$ curl -XPOST 'localhost:9200/myindex/_settings?index.refresh_interval=30s'
+```
+
+This would set the interval to 30 seconds.
+
 
 # What happens when you create an index on a cluster?
 
