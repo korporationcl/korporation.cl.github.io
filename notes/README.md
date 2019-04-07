@@ -5,6 +5,8 @@ I'm planning to add notes about technical details about the things that I use (t
 # Databases
 
 - [ElasticSearch](elasticsearch/)
+- [MySQL](mysql/)
+- [Redis](redis/)
 
 # AWS
 
