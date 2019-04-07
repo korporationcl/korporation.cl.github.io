@@ -61,16 +61,6 @@ When a document is “deleted,” it is actually just marked as deleted in the .
 
 Document updates work in a similar way: when a document is updated, the old version of the document is marked as deleted, and the new version of the document is indexed in a new segment. Perhaps both versions of the document will match a query, but the older deleted version is removed before the query results are returned.
 
-
-
-# Basic API to interact with ElasticSearch
-
-- PUT
-- GET
-- POST
-- HEAD
-- DELETE
-
 # Near Realtime Search
 
 With the development of per-segment search, the delay between indexing a document and making it visible to search dropped dramatically. New documents could be made searchable within minutes, but that still isn’t fast enough.
@@ -122,11 +112,96 @@ While we refresh once every second to achieve near real-time search, we still ne
 
 Elasticsearch added a translog, or transaction log, which records every operation in Elasticsearch as it happens. With the translog, the process now looks like this:
 
-1. When a document is indexed, it is added to the in-memory buffer and appended to the translog, as shown in Figure “New documents are added to the in-memory buffer and appended to the transaction log”:
+1) When a document is indexed, it is added to the in-memory buffer and appended to the translog, as shown in Figure “New documents are added to the in-memory buffer and appended to the transaction log”:
 
 ![New documents added to in-memory and appended to translog](/assets/elas_1106.png)
 
+2) The refresh leaves the shard in the state depicted in Figure “After a refresh, the buffer is cleared but the transaction log is not”. Once every second, the shard is refreshed:
+
+The docs in the in-memory buffer are written to a new segment, without an fsync.
+The segment is opened to make it visible to search.
+The in-memory buffer is cleared.
+
+![After a refresh, the buffer is cleared but transaction log is not](/assets/elas_1107.png)
+
+
+3) This process continues with more documents being added to the in-memory buffer and appended to the transaction log (see Figure “The transaction log keeps accumulating documents”):
+
+![The transaction log keeps accumulating documents](/assets/elas_1108.png)
+
+4) Every so often—such as when the translog is getting too big, **the index is flushed; a new translog is created, and a full commit is performed** (see Figure “After a flush, the segments are fully commited and the transaction log is cleared”):
+
+- Any docs in the in-memory buffer are written to a new segment.
+- The buffer is cleared.
+- A commit point is written to disk.
+- The filesystem cache is flushed with an fsync.
+- The old translog is deleted.
+
+The translog provides a persistent record of all operations that have not yet been flushed to disk. When starting up, Elasticsearch will use the last commit point to recover known segments from disk, and will then replay all operations in the translog to add the changes that happened after the last commit.
+
+The translog is also used to provide real-time CRUD. When you try to retrieve, update, or delete a document by ID, it first checks the translog for any recent changes before trying to retrieve the document from the relevant segment. This means that it always has access to the latest known version of the document, in real-time.
+
+![After a flush, the segments are fully commited and the transaction log is cleared](/assets/elas_1109.png)
+
+## Flush API
+
+The action of performing a commit and truncating the translog is known in Elasticsearch as a flush. Shards are flushed automatically every 30 minutes, or when the translog becomes too big. See the translog documentation for settings that can be used to control these thresholds:
+
+The flush API can be used to perform a manual flush:
+
+```
+POST /blogs/_flush (1)
+POST /_flush?wait_for_ongoing (2)
+```
+
+[1] Flush the blogs index.
+
+[2] Flush all indices and wait until all flushes have completed before returning.
+
 - https://www.elastic.co/guide/en/elasticsearch/guide/current/translog.html
+
+## Segment Merging
+
+With the automatic refresh process creating a new segment every second, it doesn’t take long for the number of segments to explode. Having too many segments is a problem. Each segment consumes file handles, memory, and CPU cycles. More important, **every search request has to check every segment in turn**; the more segments there are, the slower the search will be.
+
+Elasticsearch solves this problem by merging segments in the background. Small segments are merged into bigger segments, which, in turn, are merged into even bigger segments.
+
+**This is the moment when those old deleted documents are purged from the filesystem. Deleted documents (or old versions of updated documents) are not copied over to the new bigger segment.**
+
+There is nothing you need to do to enable merging. It happens automatically while you are indexing and searching. The process works like as depicted in Figure “Two commited segments and one uncommited segment in the process of being merged into a bigger segment”:
+
+1) While indexing, the refresh process creates new segments and opens them for search.
+
+2) The merge process selects a few segments of similar size and merges them into a new bigger segment in the background. This does not interrupt indexing and searching.
+
+![Two commited segments and one uncommited segment in the process of being merged into a bigger segment](/assets/elas_1110.png)
+
+3) Figure “Once merging has finished, the old segments are deleted” illustrates activity as the merge completes:
+
+- The new segment is flushed to disk.
+- A new commit point is written that includes the new segment and excludes the old, smaller segments.
+- The new segment is opened for search.
+- The old segments are deleted.
+
+![Once merging has finished, the old segments are deleted](/assets/elas_1111.png)
+
+The merging of big segments can use a lot of I/O and CPU, which can hurt search performance if left unchecked. By default, Elasticsearch throttles the merge process so that search still has enough resources available to perform well.
+
+- https://www.elastic.co/guide/en/elasticsearch/guide/current/merge-process.html
+
+## Optimize API
+
+The optimize API is best described as the forced merge API. It forces a shard to be merged down to the number of segments specified in the max_num_segments parameter. The intention is to reduce the number of segments (usually to one) in order to speed up search performance.
+
+In certain specific circumstances, the optimize API can be beneficial. The typical use case is for logging, where logs are stored in an index per day, week, or month. Older indices are essentially read-only; they are unlikely to change.
+
+In this case, it can be useful to optimize the shards of an old index down to a single segment each; it will use fewer resources and searches will be quicker:
+
+```
+POST /logstash-2014-10/_optimize?max_num_segments=1
+```
+
+---
 
 # What happens when you create an index on a cluster?
 
