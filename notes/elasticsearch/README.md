@@ -1,3 +1,5 @@
-## Items
+# You know, for search.
 
-- [foundational concepts](foundations.md)
+- [Foundational concepts](foundations.md)
+- [Configuration](configuration.md)
+- [Performance](performance.md)
