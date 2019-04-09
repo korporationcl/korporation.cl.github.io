@@ -37,8 +37,37 @@ Set this to a high value, depending of the EC2 instance we use.
 - https://www.elastic.co/guide/en/elasticsearch/reference/current/recovery.html
 
 
-## JAVA HEAP
+# JVM
 
+## Garbage Collection Primer
+
+Before we describe the stats, it is useful to give a crash course in garbage collection and its impact on Elasticsearch. If you are familar with garbage collection in the JVM, feel free to skip down.
+
+Java is a garbage-collected language, which means that the programmer does not manually manage memory allocation and deallocation. The programmer simply writes code, and the Java Virtual Machine (JVM) manages the process of allocating memory as needed, and then later cleaning up that memory when no longer needed.
+
+When memory is allocated to a JVM process, it is allocated in a big chunk called the heap. The JVM then breaks the heap into two groups, referred to as generations:
+
+Young (or Eden)
+The space where newly instantiated objects are allocated. The young generation space is often quite small, usually 100 MB–500 MB. The young-gen also contains two survivor spaces.
+Old
+The space where older objects are stored. These objects are expected to be long-lived and persist for a long time. The old-gen is often much larger than the young-gen, and Elasticsearch nodes can see old-gens as large as 30 GB.
+When an object is instantiated, it is placed into young-gen. When the young generation space is full, a young-gen garbage collection (GC) is started. Objects that are still "alive" are moved into one of the survivor spaces, and "dead" objects are removed. If an object has survived several young-gen GCs, it will be "tenured" into the old generation.
+
+A similar process happens in the old generation: when the space becomes full, a garbage collection is started and dead objects are removed.
+
+Nothing comes for free, however. Both the young- and old-generation garbage collectors have phases that "stop the world." During this time, the JVM literally halts execution of the program so it can trace the object graph and collect dead objects. During this stop-the-world phase, nothing happens. Requests are not serviced, pings are not responded to, shards are not relocated. The world quite literally stops.
+
+This isn’t a big deal for the young generation; its small size means GCs execute quickly. But the old-gen is quite a bit larger, and a slow GC here could mean 1s or even 15s of pausing—which is unacceptable for server software.
+
+The garbage collectors in the JVM are very sophisticated algorithms and do a great job minimizing pauses. And Elasticsearch tries very hard to be garbage-collection friendly, by intelligently reusing objects internally, reusing network buffers, and enabling Doc Values by default. But ultimately, GC frequency and duration is a metric that needs to be watched by you, since it is the number one culprit for cluster instability.
+
+A cluster that is frequently experiencing long GC will be a cluster that is under heavy load with not enough memory. These long GCs will make nodes drop off the cluster for brief periods. This instability causes shards to relocate frequently as Elasticsearch tries to keep the cluster balanced and enough replicas available. This in turn increases network traffic and disk I/O, all while your cluster is attempting to service the normal indexing and query load.
+
+In short, long GCs are bad and need to be minimized as much as possible.
+
+- https://www.elastic.co/guide/en/elasticsearch/guide/current/_monitoring_individual_nodes.html#garbage_collector_primer
+
+---
 Never exceed the 32GB RAM limit. Set the HEAP to use less half(or less) of your total RAM.
 
 - https://www.elastic.co/guide/en/elasticsearch/guide/current/heap-sizing.html
