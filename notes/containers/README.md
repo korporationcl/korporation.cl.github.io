@@ -1,0 +1,1 @@
+# This contains infornation about containers and different things related to Docker, Kubernetes and so forth.
