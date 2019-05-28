@@ -56,10 +56,15 @@ spec:
 - `replicas`: parameter tell the cluster to keep all the times 2 pods/instances running the whole time.
 - `apiVersion`: is the version of Kubernetes API to use, v1 is the current one. Software and API version may differ.
 - `kind`: type of object you want to deploy. previous example is `Deployment` but can be `Pod`, `DaemonSet` and so forth.
-- `metadata`: Unique data that helps to identify an object. UID must be unique, there can't be two Pods running with the same `UID`. Names can't be over 253 characters.
+- `metadata`: Unique data that helps to identify an object. UID must be unique, there can't be two Pods running with the same **NAME**. Names can't be over 253 characters.
 - `spec`: Defines the desire state of the object.
-  - `container`: the containers Pod image, volumes, exposed ports for the container.
-- `status`: Describe the actual state of the object
+  - `spec/containers`: the containers Pod image, volumes, exposed ports for the container.
+- `status`: Describe the actual state of the object.
+- `labels`: You can add labels to add more information about the object and use them as selectors (apply an action). It works similar as AWS tags.
+```
+kubectl get pods --show-labels
+```
+- `annotations`: k,v can't use them as selectors. We can add more annotations to objects.
 
 
 We can deploy the previous deployment with:
