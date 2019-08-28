@@ -12,3 +12,21 @@
 - Volumes are always in the same AZ as the instance.
 - To migrate a volume to a different AZ, take snapshot, create an AMI of it and then launch the instance on the new AZ.
 - To move onen volume to a different region,, take snapshot, create an AMI and copy that AMI to that region.
+
+
+# Encrypted root device volumes/snapshots
+
+You can encrypt root device volumes on creation or follow the procedure:
+
+1. Create snapshot from root device
+2. Create a copy of the snapshot and select encrypt snapshot
+3. Create AMI from the encrypted version of the snapshot
+4. Launch new instance using the encrypted snapshot
+
+
+# Examn tips
+
+- snapshots from volumes that are encrypted cannot be launch without encryption
+- so volumes restored from encrypted snapshots are encrypted by default
+- you can share snapshots only if they are **unencrypted**
+- you can encrypt root device volume on launch
