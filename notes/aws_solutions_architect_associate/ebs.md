@@ -13,6 +13,8 @@
 - To migrate a volume to a different AZ, take snapshot, create an AMI of it and then launch the instance on the new AZ.
 - To move onen volume to a different region,, take snapshot, create an AMI and copy that AMI to that region.
 
+# References
+- EBS Performance: `https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSPerformance.html`
 
 # Encrypted root device volumes/snapshots
 

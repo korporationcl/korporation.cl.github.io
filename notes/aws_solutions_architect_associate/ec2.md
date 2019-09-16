@@ -31,12 +31,29 @@ Dedicated hosts:
 # EC2 Placement groups
 
 - 3 ways of placing EC2 instances
-  - Clustered Placement group
-  - Spread Placement group
-  - Partitioned
+  - Clustered Placement group (High network throughput / low latency)
+  - Spread Placement group (individual critical EC2 instances running in different hardware)
+  - Partitioned (Multiple EC2 instances, Cassandra clusters, Hbase, etc)
 
 - A cluster placement group: grouping instances within a single AZ. Are recommended for applications that need low latency, high network throughput, or both.
   only some instances can be launched into a Clustered placement group.
+
+- Spread placement group: Group of instances placed on different underlaying hardware (hosts). Are recommended for applications that have small number of instances
+  and should be kept seperate from each other (Individial Instances).
+
+- Partitioned: EC2 divides each group in logical segments called "Partitions". Each partition will run in it's own Rack. Each Rack has it's own network, power        source, etc. Two partitions cannot live on the same Rack, this isolates the impact of having hardware failures.
+
+
+- Clustered placement group can't span multi AZ
+  - Spread and Partitioned only can
+- The name of the placement group is **unique** within AWS
+- Only some instances are supported to be launched in Placement group (Compute optimized, GPU, Memory Optimized, Storage optimized)
+- AWS recommends using the same instance type for launching a placement group.
+- You can't merge Placement groups
+- You can't move an existent instance to a Placement group. You need to create an AMI and launch a new instance in the placement group.
+- Spread Placement group can have a maximum of 7 instances per AZ.
+
+Reference: `https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html`
 
 
 
