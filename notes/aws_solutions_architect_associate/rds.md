@@ -26,7 +26,7 @@
   - When performing a recovery, AWS choose the most recent daily backup and apply all the transactions pending from logs.
   - Automated backups are enabled by default
   - Backups are stored on S3 and you get free storage equal to the size of the database. If RDS instance is 10GB you get 10GB for backups.
-  - Backups are generated within the defined window. During this time storage/IO may be suspended or you may experience latency.
+  - **Backups are generated within the defined window. During this time storage/IO may be suspended or you may experience latency.**
 
 
 - DB Snapshots
@@ -72,3 +72,8 @@
   - MariaDB
   - Aurora
 - Once the instance is using encryption, the data stored on the volume, snapshots, read replicas and backups are encrypted (everything is encrypted).
+
+# References
+
+- https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html
+- https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html

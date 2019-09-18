@@ -7,3 +7,6 @@
     updated data (best read performance).
 - Strongly consistent reads
   - Read returns a result that reflects all writes that received a successful response prior to the read (less than 1 second)
+- **When using a single region you are changed by:**
+ - Storage
+ - Read and write capacity
