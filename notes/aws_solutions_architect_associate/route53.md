@@ -1,9 +1,9 @@
 # Amazon Route53
 
-- ELB never have a pre-defined IPV4 address, you resolve them using DNS.
+- **ELB never have a pre-defined IPV4 address, you resolve them using DNS.**
 - Alias record vs CNAME
   - to reference AWS resources use Alias record
-- Always use Alias record
+  - **Always use Alias record**
 - Common types of record:
   - A
   - CNAME
