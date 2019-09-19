@@ -12,6 +12,8 @@
   - SOA
   - PTR
 - **You can buy domain names directly from Amazon (It can take up to 3 days to register a domain name)**
+- Alias Records have special functions that are not present in other DNS servers. Their main function is to provide special functionality and      integration into AWS services. Unlike CNAME records, they can also be used at the Zone Apex, where CNAME records cannot. Alias Records can       also point to AWS Resources that are hosted in other accounts by manually entering the ARN Further information.
+- There is a default limit of 50 domains names which can be increased contacting AWS support.
 
 # Routing Policies
 
@@ -32,7 +34,11 @@
 - Geoproximity routing (Traffic Flow): Route53 route traffic to your resources based on geo-location of users and AWS resources. You can           specificy how much traffic you want to send setting a **bias** value (weight). To use this service you need to setup Route53 Traffic Flow.
 
 - Multivalue routing policy: Multiple records can have healthchecks (same as simple routing but with healthchecks)
-
+  - Use when you want Route 53 to respond to DNS queries with up to eight healthy records selected at random.
 
 # References
 - https://www.isc.org/blogs/cname-at-the-apex-of-a-zone/
+- https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html
+- https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html
+- https://tools.ietf.org/html/rfc2181
+- https://tools.ietf.org/html/rfc1034
