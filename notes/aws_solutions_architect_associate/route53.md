@@ -1,16 +1,47 @@
 # Amazon Route53
 
+- Route53 is an Authoritative DNS service
+- TLD; Top Level domains
+  - .com
+  - .edu
+  - .uk
+- SOA (Start of authority record)
+  - Administrator of the zone
+  - default nunber of seconds/TTL for the records
+  - Name of the server
+  - Current version of the zone
+  - It is mandatory in all zone files
+- TLD domain servers will redirect traffic to the DNS Server which contains the Authoritive DNS records (Route53)
+- You can get a domain with any Domain registrars. Domain registrars manage part of the Internet domain names.
+- Domain registrars must be acredited by a gTLD(Generic TLD) and/or country code TLD (ccTLD) registry.
+- There are 13 root servers available across the whole Internet
+
+# How DNS resolution works
+
+1. You type `www.amazon.com` in your browser,  it will check your  `/etc/hosts` file.
+2. If no entry is there, then will ask the local cache.
+3. If no local cache is available, it will ask the DNS resolver for the results.
+4. If no answer there, DNS resolver it will ask the ROOT servers.
+5. A root server will receive the request and will try to resolve the domain name but will fail.
+6. root server will find the the entity responsible for the TLD (.com) and will get the name server.
+7. the request is send to the root server in charge of the domain `www.amazon.com`. This will get you IP of the name servers for the domain.
+8. route53/name-server checks for an entry looking for the `www.amazon.com`. Inside the `amazon.com` zone, there is a record for `www`.
+
+
 - **ELB never have a pre-defined IPV4 address, you resolve them using DNS.**
 - Alias record vs CNAME
   - to reference AWS resources use Alias record
   - **Always use Alias record**
 - Common types of record:
-  - A
-  - CNAME
-  - MX
-  - NS
-  - SOA
-  - PTR
+  - A: Converts a name to IP. (AAAA for IPv6 address)
+  - CNAME (canonical name): Can resolve a domain name to another. `pepe.example.com` CNAME `mara.example.com`.
+  - MX (Mail Exchange): Define your mail servers
+  - NS (Name servers): Name servers are used by TLD servers to direct traffic to the DNS server that contains the authoritative records.
+  - PTR(Pointer): Reverses an IP to domain name.
+  - SPF(Sender Policy Framework): Tell you which IP's are allowed to send email on behalf of the company name.
+  - TXT: Text information.
+  - SRV (Service): Defines the name and port number for a particular service. For example `example.com` has a HTTP service running on `TCP/80`.
+
 - **You can buy domain names directly from Amazon (It can take up to 3 days to register a domain name)**
 - Alias Records have special functions that are not present in other DNS servers. Their main function is to provide special functionality and      integration into AWS services. Unlike CNAME records, they can also be used at the Zone Apex, where CNAME records cannot. Alias Records can       also point to AWS Resources that are hosted in other accounts by manually entering the ARN Further information.
 - There is a default limit of 50 domains names which can be increased contacting AWS support.
