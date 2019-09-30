@@ -34,7 +34,47 @@ Server side:
 | Random Number | 12412414124214214
 
 2. Server sends certificate
+
+Server sends certificate with information, such as:
+
+- Who this server belongs to or `issuer`
+- How long the certificate is valid for
+- Public key
+
+
 3. Your computer says 'starts encrypting'
+
+- Client key exchange (both computers can calculate a master secret code)
+- Client asks server to encrypt
+- Client is finished and sends a message back to the server.
+
 4. The server says 'starts encrypting'
+
+- Server starts sending encrypted messages using the `cipher` agreed before.
+- Last message sent back to the client goes encrypted already.
+
 5. ALL messages are now encrypted
+
+- Messages are encrypted at this stage
+
+## Identitication (Trust)
+
+1. Company asks a CA for a certificate (Verisign, SSLRapid, etc)
+
+In order to ask for a certificate we need to send some information (CSR):
+- Web server
+- What company is this
+- Where is the company located
+- etc
+
+2. CA creates/issues a certificate and signs it
+3. Certificate is deployed in the Server/Load Balancer
+4. Browser issued with root certificates
+5. Browser trusts correctly signed certs
+
+
+## References
+
+- https://www.youtube.com/watch?v=iQsKdtjwtYI&t=388s
+
 
