@@ -9,5 +9,3 @@ Amazon Athena is an interactive query service that makes it easy to analyze data
 
   # References
   - https://aws.amazon.com/athena/faqs/
-
-khkF2E4bTybZc7BtebHG
