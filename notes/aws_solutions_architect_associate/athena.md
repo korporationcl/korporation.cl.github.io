@@ -5,7 +5,7 @@ Amazon Athena is an interactive query service that makes it easy to analyze data
 - **Athena supports the following formats:**
   - JSON
   - Apache ORC
-  - Apache Parket
+  - Apache Parquet
 
   # References
   - https://aws.amazon.com/athena/faqs/

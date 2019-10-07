@@ -1,7 +1,7 @@
 # CloudFront
 
 - Content Delivery Network to deliver content based on geolocation (to reduce latency)
-- Edge location is where the content is going to be cached (this is seperate from AZ's)
+- Edge location is where the content is going to be cached (thoese are separate from AZ's)
 - Origin is the source of the files that will be distributed. Can be an S3 bucket, EC2 instance, LB or Route53.
 - Distribution is the name of the CDN, which consists of a list of Edge locations.
 
