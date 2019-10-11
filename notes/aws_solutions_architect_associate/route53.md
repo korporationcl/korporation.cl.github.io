@@ -60,7 +60,7 @@
 
 - Failover routing policy: If you want to have an active-passive setup. If the healthcheck does not pass traffic will be redirected.
 
-- Geolocation routing policy: Traffic will be redirected based on the geo-location of the users.
+- Geolocation routing policy: Traffic will be redirected based on the geo-location of the users. It has 3 levels of granularity: `continent`, `country` and `state`.
 
 - Geoproximity routing (Traffic Flow): Route53 route traffic to your resources based on geo-location of users and AWS resources. You can           specificy how much traffic you want to send setting a **bias** value (weight). To use this service you need to setup Route53 Traffic Flow.
 
