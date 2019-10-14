@@ -2,9 +2,9 @@
 
 - You pay for resources on demand (by hour, by second)
 - Pricing models are:
-  - On demand
-  - Reserved instances
-  - Spot
+  - On demand (by hour or second)
+  - Reserved instances (1 -3 years contract, the longer the better discount you get)
+  - Spot (You bid on instance capacity)
   - Dedicated hosts: Physical EC2 Server dedicated.
 
 
@@ -22,10 +22,12 @@ Dedicated hosts:
 
 # Security Groups
 
-- Security groups are STATEFUL (nacls are stateless)
+- Security groups are `stateful`
+- NACLS are `stateless`, you need to add both inbound/outbound.
 - All incoming traffic is blocked by default
 - all outbound traffic is allowed by default
 - Changes are applied immediatly
+- You can attach several SG to an instance
 
 
 # EC2 Placement groups
@@ -60,6 +62,7 @@ Reference: `https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups
 # References
 
 - How AWS price works https://d1.awsstatic.com/whitepapers/aws_pricing_overview.pdf (not needed for exam)
+- https://aws.amazon.com/blogs/aws/new-ec2-spot-instance-termination-notices/
 
 # Important for Exam
 

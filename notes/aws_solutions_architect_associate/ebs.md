@@ -2,6 +2,7 @@
 
 - General Purpose SSD (gp2). Designed for most of the workloads.
 - Provision IOPS (io1). Designed mostly for databases.
+  - Max IOPS is 32,000
 - Throughput optimised HDD (st1). Designed for data warehouse and big data.
 - Cold Hard drive (sc1). File Servers (NFS/Samba)
 - Magnetic (standard). Infrequently access data.
@@ -26,7 +27,7 @@ You can encrypt root device volumes on creation or follow the procedure:
 4. Launch new instance using the encrypted snapshot
 
 
-# Examn tips
+# Tips
 
 - snapshots from volumes that are encrypted cannot be launch without encryption
 - so volumes restored from encrypted snapshots are encrypted by default

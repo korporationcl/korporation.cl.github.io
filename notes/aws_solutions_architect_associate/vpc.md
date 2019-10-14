@@ -19,6 +19,7 @@
 - **Security groups belong to one VPC only.**
 - **SG ARE STATEFUL; NACLS ARE STATELESS**
 - **The purpose of an "Egress-Only Internet Gateway" is to allow IPv6 based traffic within a VPC to access the Internet, whilst denying any Internet based resources the possibility of initiating a connection back into the VPC.**
+- **If you decide to use `Dedicated hosting tenancy`, you can go back via CLI or API.**
 
 # NACLs
 

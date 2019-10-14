@@ -1,6 +1,10 @@
 # DynamoDB
 
 - DynamoDB is a NOSQL database engine managed by AWS.
+- Use cases:
+  - Storing JSON Data
+  - Storing web sessions
+  - Storing metadata of blob data stored in S3
 - When creating a table you have to specify a **table name and **primary key**
 - A primary key cannot be changed once the table has been created. A primary key uniquely identifies each item in the table.
 - DynamoDB supports two types of keys:
@@ -33,3 +37,4 @@ Creating a table called `Music` with a primary key `artist`:
  - Read and write capacity
 - By default a `table` has `provisioned` read-throughout and write-throughout associated and you are billed by the hour of that throughput if you exceeded the free tier.
 - **DynamoDB automatically spreads the data and traffic for the table over a sufficient number of partitions.**
+- **DynamoDB Accelerator (DAX) delivers fast response times for accessing eventually consistent data (microseconds).**

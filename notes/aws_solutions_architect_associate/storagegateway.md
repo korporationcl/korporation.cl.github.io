@@ -8,7 +8,7 @@
     - Cached volumes (S3 is the primary data storage and the local disk are for caching the frequently access data)
   - TapeGateway (VTL) - replicate your tape data to AWS as backup
 
-# Exam tips
+# Tips
 - File gateway for storing files on S3
 - Volume gateways
   - Store volume: data is accessed locally and back up to AWS async.

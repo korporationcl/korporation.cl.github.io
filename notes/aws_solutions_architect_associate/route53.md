@@ -15,6 +15,7 @@
 - You can get a domain with any Domain registrars. Domain registrars manage part of the Internet domain names.
 - Domain registrars must be acredited by a gTLD(Generic TLD) and/or country code TLD (ccTLD) registry.
 - There are 13 root servers available across the whole Internet
+- Default limit for hosted zones is `500`, maximum amount of record per zone is `10,000`.
 
 # How DNS resolution works
 
@@ -30,7 +31,13 @@
 
 - **ELB never have a pre-defined IPV4 address, you resolve them using DNS.**
 - Alias record vs CNAME
-  - to reference AWS resources use Alias record
+  - to reference AWS resources use Alias record, supported services are:
+    - API Gateway
+    - ELB
+    - CloudFront
+    - Elastic Beanstalk
+    - VPC Endpoints
+    - S3
   - **Always use Alias record**
 - Common types of record:
   - A: Converts a name to IP. (AAAA for IPv6 address)
