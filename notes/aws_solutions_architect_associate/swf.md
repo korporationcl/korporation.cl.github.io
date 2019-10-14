@@ -1,7 +1,6 @@
 # AWS Simple Work Flow
 
 - SWF vs SQS
-  - SQS has a retention period of 14 days.
   - SWF executions can last up to 1 year.
 - SWF API is task-oriented. SQS API is message-oriented API.
 - SWF ensures a task is assigned once and is never duplicated. SQS you need to handle duplicated messages and may also need to make sure

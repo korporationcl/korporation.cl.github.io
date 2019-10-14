@@ -8,9 +8,10 @@
 Web Distributions: Used for websites
 RTMP: Used for media streaming
 
-# Exam tips
+
+# Tips
 
 - Edge locations are both READ and WRITE
 - Objects are cached for a default Time to Live (TTL)
 - You can clear cached objects but you will be charged (invalidation)
-
+- CloudFront Origin Access Identifier (OAI) is special identity that can be used to restrict access to an S3 bucket.
