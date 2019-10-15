@@ -10,6 +10,7 @@
   - DynamoDB
 - RedShift (Analytics) - Online Analytics process (OLAP)
 - ElastiCache (Memcache and Redis). Speed up performance of existent databases (caching in memory)
+- A 'Connection Refused' message will result if a client program attempts to connect to an RDS database using an invalid endpoint string.
 
 # Features to remember
 - Patching AWS instance is Amazon's responsibility, of course.
@@ -17,6 +18,8 @@
 - You cannot login into the instance but you can access via `mysql-client`, as usual.
 
 # Read Replicas, Multi AZ and Backups
+
+- MySQL, Oracle, Aurora, MariaDB, PostgreSQL support read replicas.
 
 ## Backups
 
