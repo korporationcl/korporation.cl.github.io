@@ -6,18 +6,19 @@
     <description>Recent content on korporation</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 Dec 2019 11:22:44 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 26 Dec 2019 19:35:38 +0100</lastBuildDate>
     
 	<atom:link href="https://www.korporation.cl/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Welcome 2020</title>
-      <link>https://www.korporation.cl/posts/welcome-2020/</link>
-      <pubDate>Tue, 24 Dec 2019 11:22:44 +0100</pubDate>
+      <title>Kubernetes</title>
+      <link>https://www.korporation.cl/posts/kubernetes/</link>
+      <pubDate>Thu, 26 Dec 2019 19:35:38 +0100</pubDate>
       
-      <guid>https://www.korporation.cl/posts/welcome-2020/</guid>
-      <description></description>
+      <guid>https://www.korporation.cl/posts/kubernetes/</guid>
+      <description>Cluster Architecture Kubernetes is composed of a master node (Control Plane) and workers (where containers are running). Some key aspects from each role are:
+Control Plane (master node):  API Server: communication hub for all the components, exposes Kubernetes API to all the other components. Scheduler: is in charge of assigning applications to a node/worker Controller Manager: maintains the cluster, handle node failures, number of pods, etc. etcd: is data store for cluster configuration.</description>
     </item>
     
   </channel>

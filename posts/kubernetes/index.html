@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    
+    Kubernetes
+     | Victor Vargas 
+  </title>
+  <link rel="stylesheet" href='https://www.korporation.cl/css/site.min.eb4797a608f467160f71b5cc518dffb9b3fef0edc95e6def8dc4033ba1888b8f414e3d1d3e6c9804ca3e6f125539d8af48b28dcecb4eafc5805bde0b3c8d6956.css' integrity='sha512-60eXpgj0ZxYPcbXMUY3/ubP&#43;8O3JXm3vjcQDO6GIi49BTj0dPmyYBMo&#43;bxJVOdivSLKNzstOr8WAW94LPI1pVg=='>
+  <link rel="canonical" href="https://www.korporation.cl/posts/kubernetes/">
+  <link rel="alternate" type="application/rss&#43;xml" href="https://www.korporation.cl/index.xml" title="korporation">
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="author" content="Victor Vargas">
+<meta name="description" content="Cluster Architecture Kubernetes is composed of a master node (Control Plane) and workers (where containers are running). Some key aspects from each role are:
+Control Plane (master node):  API Server: communication hub for all the components, exposes Kubernetes API to all the other components. Scheduler: is in charge of assigning applications to a node/worker Controller Manager: maintains the cluster, handle node failures, number of pods, etc. etcd: is data store for cluster configuration.">
+
+<meta property="og:title" content="Kubernetes" />
+<meta property="og:description" content="Cluster Architecture Kubernetes is composed of a master node (Control Plane) and workers (where containers are running). Some key aspects from each role are:
+Control Plane (master node):  API Server: communication hub for all the components, exposes Kubernetes API to all the other components. Scheduler: is in charge of assigning applications to a node/worker Controller Manager: maintains the cluster, handle node failures, number of pods, etc. etcd: is data store for cluster configuration." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.korporation.cl/posts/kubernetes/" />
+<meta property="article:published_time" content="2019-12-26T19:35:38+01:00" />
+<meta property="article:modified_time" content="2019-12-26T19:35:38+01:00" />
+
+
+</head>
+<body><nav class="navbar is-transparent " role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="https://www.korporation.cl/">
+      <figure class="image">
+        <img alt="" class="is-rounded" src="https://www.gravatar.com/avatar/830a5d3d6a048f8ca89338f0d4f66493?s=128&d=identicon">
+      </figure>
+    </a>
+    <a class="navbar-item" href="https://www.korporation.cl/">
+      korporation
+    </a>
+  </div>
+  
+  <div class="navbar-menu">
+    <div class="navbar-start">
+      
+    </div>
+    
+    <div class="navbar-end">
+      
+      <a class="navbar-item" href="https://github.com/korporationcl/" rel="noopener" target="_blank">
+        <span class="icon">
+          <img alt="github-circle" src='https://www.korporation.cl/icons/svg/github-circle.svg'>
+        </span>
+      </a>
+      
+      <a class="navbar-item" href="https://www.linkedin.com/in/victorvargasb/" rel="noopener" target="_blank">
+        <span class="icon">
+          <img alt="linkedin" src='https://www.korporation.cl/icons/svg/linkedin.svg'>
+        </span>
+      </a>
+      
+      <a class="navbar-item" href="mailto:victor@korporation.cl" target="_blank">
+        <span class="icon">
+          <img alt="email" src='https://www.korporation.cl/icons/svg/email.svg'>
+        </span>
+      </a>
+      <a class="navbar-item" href="https://www.korporation.cl/index.xml" target="_blank">
+        <span class="icon">
+          <img alt="rss" src='https://www.korporation.cl/icons/svg/rss.svg'>
+        </span>
+      </a>
+      
+    </div>
+  </div>
+</nav>
+<section class="hero is-small is-info is-fullwidth">
+  <div class="hero-body">
+<div class="container">
+  <h1 class="title">
+    Kubernetes
+  </h1>
+  <h2 class="subtitle">
+    <time datetime='2019-12-26T19:35:38&#43;01:00'>
+      December 26, 2019
+    </time>
+    
+  </h2>
+</div>
+
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+<div class="content is-medium">
+  <h1 id="cluster-architecture">Cluster Architecture</h1>
+<p>Kubernetes is composed of a master node (Control Plane) and workers (where containers are running). Some key aspects from each role are:</p>
+<h2 id="control-plane-master-node">Control Plane (master node):</h2>
+<ul>
+<li>API Server: communication hub for all the components, exposes Kubernetes API to all the other components.</li>
+<li>Scheduler: is in charge of assigning applications to a node/worker</li>
+<li>Controller Manager: maintains the cluster, handle node failures, number of pods, etc.</li>
+<li>etcd: is data store for cluster configuration.</li>
+</ul>
+<p>The master node will never run applications on it, only worker nodes, however master node can be replicated for high availability purposes.</p>
+<h2 id="worker-node">Worker node</h2>
+<p>Is responsible for running the application and services you need:</p>
+<ul>
+<li>kubelet: runs and manage the containers on the node. It talks to the API server. It also talks to the container runtime (Docker)</li>
+<li>kubeproxy: load balance traffic between application components.</li>
+<li>container runtime: the program that runs the containers such as Docker (there are others rkt, containerd).</li>
+</ul>
+<h2 id="api">API</h2>
+<p>All the components talk directly to the API server and it's the only one able to talk to <code>etcd</code> (configuration). We can get the status of the components with
+the following command:</p>
+<pre><code>$ kubectl get componentstatus
+</code></pre><p>you can inject more options to <code>kubectl</code> passing a <code>yaml</code> file during the call (limitation of using the command), also it's useful to version the configuration files in <code>git</code>. Consider the following <code>deployment.yaml</code> file:</p>
+<pre><code>apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+</code></pre><ul>
+<li><code>replicas</code>: parameter tell the cluster to keep all the times 2 pods/instances running the whole time.</li>
+<li><code>apiVersion</code>: is the version of Kubernetes API to use, v1 is the current one. Software and API version may differ.</li>
+<li><code>kind</code>: type of object you want to deploy. previous example is <code>Deployment</code> but can be <code>Pod</code>, <code>DaemonSet</code> and so forth.</li>
+<li><code>metadata</code>: Unique data that helps to identify an object. UID must be unique, there can't be two Pods running with the same <strong>NAME</strong>. Names can't be over 253 characters.</li>
+<li><code>spec</code>: Defines the desire state of the object.
+<ul>
+<li><code>spec/containers</code>: the containers Pod image, volumes, exposed ports for the container.</li>
+</ul>
+</li>
+<li><code>status</code>: Describe the actual state of the object.</li>
+<li><code>labels</code>: You can add labels to add more information about the object and use them as selectors (apply an action). It works similar as AWS tags.</li>
+</ul>
+<pre><code>kubectl get pods --show-labels
+</code></pre><ul>
+<li><code>annotations</code>: k,v can't use them as selectors. We can add more annotations to objects.</li>
+</ul>
+<p>We can deploy the previous deployment with:</p>
+<pre><code>$ kubectl create -f deployment.yaml
+</code></pre><p>Internally, <code>kubectl</code> converts the output from the previous configuration to JSON since this is the format the API server understands.</p>
+<h2 id="references">References</h2>
+<p>[1] <a href="https://kubernetes.io/docs/concepts/overview/components/">https://kubernetes.io/docs/concepts/overview/components/</a>
+[2] <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/">https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/</a>
+[3] <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/">https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/</a>
+[4] <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/">https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/</a>
+[5] <a href="https://kubernetes.io/docs/concepts/overview/components/#etcd">https://kubernetes.io/docs/concepts/overview/components/#etcd</a>
+[6] <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/">https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/</a>
+[7] <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/">https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/</a>
+[8] <a href="https://kubernetes.io/docs/concepts/overview/components/#container-runtime">https://kubernetes.io/docs/concepts/overview/components/#container-runtime</a>
+[9] <a href="https://kubernetes.io/docs/concepts/overview/kubernetes-api/#api-versioning">https://kubernetes.io/docs/concepts/overview/kubernetes-api/#api-versioning</a>
+[10] <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/#object-spec-and-status">https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/#object-spec-and-status</a>
+[11] <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/">https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/</a></p>
+
+</div>
+
+
+  </div>
+</section><footer class="footer">
+  <div class="content has-text-centered">
+    
+    
+    <p>
+      
+      <a href="https://github.com/orf/bare-hugo-theme" target="_blank">Bare Hugo theme.</a>
+      
+      
+    </p>
+    
+  </div>
+</footer>
+
+
+</body>
+</html>
