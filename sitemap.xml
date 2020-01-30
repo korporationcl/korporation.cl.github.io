@@ -3,22 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://www.korporation.cl/</loc>
-    <lastmod>2019-12-26T19:35:38+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.korporation.cl/posts/kubernetes/</loc>
-    <lastmod>2019-12-26T19:35:38+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.korporation.cl/posts/</loc>
-    <lastmod>2019-12-26T19:35:38+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://www.korporation.cl/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://www.korporation.cl/</loc>
   </url>
   
   <url>
