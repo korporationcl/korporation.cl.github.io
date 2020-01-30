@@ -6,19 +6,18 @@
     <description>Recent content in Posts on korporation</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Dec 2019 19:35:38 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jan 2020 17:20:51 +0100</lastBuildDate>
     
 	<atom:link href="https://www.korporation.cl/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Kubernetes</title>
-      <link>https://www.korporation.cl/posts/kubernetes/</link>
-      <pubDate>Thu, 26 Dec 2019 19:35:38 +0100</pubDate>
+      <title>Memory Management in Linux</title>
+      <link>https://www.korporation.cl/posts/memory-management-in-linux/</link>
+      <pubDate>Thu, 02 Jan 2020 17:20:51 +0100</pubDate>
       
-      <guid>https://www.korporation.cl/posts/kubernetes/</guid>
-      <description>Cluster Architecture Kubernetes is composed of a master node (Control Plane) and workers (where containers are running). Some key aspects from each role are:
-Control Plane (master node):  API Server: communication hub for all the components, exposes Kubernetes API to all the other components. Scheduler: is in charge of assigning applications to a node/worker Controller Manager: maintains the cluster, handle node failures, number of pods, etc. etcd: is data store for cluster configuration.</description>
+      <guid>https://www.korporation.cl/posts/memory-management-in-linux/</guid>
+      <description>Introduction I hope this introduction serves well for anyone who needs a refresher about Operating systems in general, or people who wants to know how a Linux/Unix system works under the hood, after all the Cloud is made of Unix/Linux systems (huge part of it). Memory management is a complex subject, and I declared myself a rookie in the sense about how the Linux kernel works, however I will try to include as much details as I can possible explain or understand.</description>
     </item>
     
   </channel>

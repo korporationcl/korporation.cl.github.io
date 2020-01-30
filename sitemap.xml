@@ -3,15 +3,52 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://www.korporation.cl/categories/</loc>
+    <loc>https://www.korporation.cl/tags/cloud-computing/</loc>
+    <lastmod>2020-01-02T17:20:51+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.korporation.cl/tags/computer-science/</loc>
+    <lastmod>2020-01-02T17:20:51+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.korporation.cl/tags/kernel/</loc>
+    <lastmod>2020-01-02T17:20:51+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://www.korporation.cl/</loc>
+    <lastmod>2020-01-02T17:20:51+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.korporation.cl/tags/linux/</loc>
+    <lastmod>2020-01-02T17:20:51+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.korporation.cl/tags/memory-management/</loc>
+    <lastmod>2020-01-02T17:20:51+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.korporation.cl/posts/memory-management-in-linux/</loc>
+    <lastmod>2020-01-02T17:20:51+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.korporation.cl/posts/</loc>
+    <lastmod>2020-01-02T17:20:51+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://www.korporation.cl/tags/</loc>
+    <lastmod>2020-01-02T17:20:51+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.korporation.cl/categories/</loc>
   </url>
   
 </urlset>

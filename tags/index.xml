@@ -6,9 +6,55 @@
     <description>Recent content in Tags on korporation</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Thu, 02 Jan 2020 17:20:51 +0100</lastBuildDate>
     
 	<atom:link href="https://www.korporation.cl/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>cloud computing</title>
+      <link>https://www.korporation.cl/tags/cloud-computing/</link>
+      <pubDate>Thu, 02 Jan 2020 17:20:51 +0100</pubDate>
+      
+      <guid>https://www.korporation.cl/tags/cloud-computing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>computer science</title>
+      <link>https://www.korporation.cl/tags/computer-science/</link>
+      <pubDate>Thu, 02 Jan 2020 17:20:51 +0100</pubDate>
+      
+      <guid>https://www.korporation.cl/tags/computer-science/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kernel</title>
+      <link>https://www.korporation.cl/tags/kernel/</link>
+      <pubDate>Thu, 02 Jan 2020 17:20:51 +0100</pubDate>
+      
+      <guid>https://www.korporation.cl/tags/kernel/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://www.korporation.cl/tags/linux/</link>
+      <pubDate>Thu, 02 Jan 2020 17:20:51 +0100</pubDate>
+      
+      <guid>https://www.korporation.cl/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>memory management</title>
+      <link>https://www.korporation.cl/tags/memory-management/</link>
+      <pubDate>Thu, 02 Jan 2020 17:20:51 +0100</pubDate>
+      
+      <guid>https://www.korporation.cl/tags/memory-management/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>
