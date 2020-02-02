@@ -29,7 +29,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.korporation.cl/posts/memory-management-in-linux/" />
 <meta property="article:published_time" content="2020-01-02T17:20:51+01:00" />
-<meta property="article:modified_time" content="2020-01-31T02:02:49+01:00" />
+<meta property="article:modified_time" content="2020-02-02T13:56:13+01:00" />
 
 
 </head>
@@ -117,7 +117,7 @@
     <time datetime='2020-01-02T17:20:51&#43;01:00'>
       Posted: January 02, 2020
     </time>
-    Last update: 31/01/2020
+    Last update: 02/02/2020
 
     
     <br>
@@ -329,6 +329,16 @@ The fragmentation problem is one of the reasons that segmentation is no longer u
 <blockquote>
 <p>In this example we have a page size of 50 bytes, which means that each of our memory regions is split across three pages. Each page is mapped to a frame individually, so a continuous virtual memory region can be mapped to <strong>non-continuous physical frames</strong>. This allows us to start the third instance of the program without performing any defragmentation before.</p>
 </blockquote>
+<p>As mentioned before, 32 bits architecture implement a two page level, while 64 bits implements a four levels, although this has been implemented since kernel version <code>2.6.11</code>. The current levels are:</p>
+<ul>
+<li><strong>Page Global Directory</strong>: Highest level in the hierarchy and includes addresses from the Upper Directory.</li>
+<li><strong>Page Upper Directory</strong>: Points to the addresses from the Middle Directory.</li>
+<li><strong>Page Middle Directory</strong>: Points to the addresses from Page Table</li>
+<li><strong>Page Table</strong>: Points to the physical addresses (page frame)</li>
+</ul>
+<p>On 32 bits with <strong>no</strong> <code>PAE</code> (Physical Address Extension), just two levels are available, otherwise it will use three (Upper and Middle are set with their fields to 0 bits, and are kept in the same order to make the code compatible for both 32/64 bits). In addition the number of page entries in those page tables are set to <code>1</code> and are mapped to the Page Global Directory.</p>
+<p><img src="https://miro.medium.com/max/727/0*HUN4J9f44iqk3iHD.png" alt="4 level pages reference"></p>
+<p><strong>Each process</strong> has it&rsquo;s own Global Page Directory and Page tables and when a <code>context switch</code> happens, Linux saves the current the value of the <code>cr3</code> register.</p>
 <h1 id="references">References</h1>
 <ol>
 <li><a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/concepts.html#mm-concepts">https://www.kernel.org/doc/html/latest/admin-guide/mm/concepts.html#mm-concepts</a></li>
@@ -343,6 +353,26 @@ The fragmentation problem is one of the reasons that segmentation is no longer u
 </ol>
 
 </div>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "korporation" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
   </div>
